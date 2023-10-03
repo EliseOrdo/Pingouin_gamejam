@@ -81,10 +81,10 @@ class Mur:
 
     def __init__(self, x, y):
 
-        self.taille = (100, 200)
+        self.taille = (120, 140)
         self.x = x
         self.y = y
-        self.mrect = pg.Rect((x, y), (120, 140))
+        self.mrect = pg.Rect((x, y), self.taille)
 
 
 mur1 = Mur(100, 100)
