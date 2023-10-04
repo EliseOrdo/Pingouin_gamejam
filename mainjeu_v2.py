@@ -33,7 +33,7 @@ class Pingouin:
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
         y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
-        return (x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < x4[1]) or (x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < x4[1] ) or (y3[0] < y1[0] < y4[0] and y3[1] < y1[1] < y4[1] ) or (y3[0] < y2[0] < y4[0] and y3[1] < y2[1] < y4[1] )
+        return not ((x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < x4[1]) or (x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < x4[1] ) or (y3[0] < y1[0] < y4[0] and y3[1] < y1[1] < y4[1] ) or (y3[0] < y2[0] < y4[0] and y3[1] < y2[1] < y4[1]))
 
 
     def touche_qui_ou(self):
