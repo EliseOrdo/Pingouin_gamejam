@@ -1,7 +1,6 @@
 """lé pengouins."""
 import pygame as pg
 
-
 pg.init()
 screen = pg.display.set_mode((1000, 800))
 
@@ -13,7 +12,7 @@ mouvements = 100
 font = pg.font.Font(None, 24)
 text = font.render(str(mouvements), 1, (0, 100, 255))
 
-g = True   # tu gagnes, à voir si on garde
+g = True  # tu gagnes, à voir si on garde
 
 
 class Pingouin:
@@ -27,22 +26,27 @@ class Pingouin:
         # Le point (x,y) est le point en haut à gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
 
-    def touche_pas_truc(self, truc):  # fonction pareille mais pour tous objets : pingouins dans prnigouins et d'ailleurs les bords aussi (= murs ???)
+    def touche_truc(self,
+                    truc):  # fonction pareille mais pour tous objets : pingouins dans prnigouins et d'ailleurs les bords aussi (= murs ???)
         """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
         y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
-        return not ((x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < x4[1]) or (x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < x4[1] ) or (y3[0] < y1[0] < y4[0] and y3[1] < y1[1] < y4[1] ) or (y3[0] < y2[0] < y4[0] and y3[1] < y2[1] < y4[1]))
-
+        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        return hg or basg or hd or bd
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pengouin, et sur quelle moitié de côté."""
         for mur in liste_murs:
-            if not self.touche_pas_truc(mur):
-                
-                return mur
-        return True
+            print(self.x, self.y)
+            if self.touche_truc(mur):
+                print('A')
+                return True
+        return False
 
     @staticmethod
     def reste_mouvements():
@@ -54,7 +58,7 @@ class Pingouin:
         global mouvements
         global g
         vit = 22
-        if self.touche_qui_ou() is True:
+        if self.touche_qui_ou() is False:
             if touche == pg.K_UP:
                 self.y -= vit
                 mouvements -= 1
@@ -68,8 +72,18 @@ class Pingouin:
                 self.x -= vit
                 mouvements -= 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
-        #else:
-            # décaler le pengouin ver là où c'est logique
+
+        while self.touche_qui_ou() is True:
+            if touche == pg.K_UP:
+                self.y += 1
+            elif touche == pg.K_DOWN:
+                self.y -= 1
+            elif touche == pg.K_RIGHT:
+                self.x -= 1
+            elif touche == pg.K_LEFT:
+                self.x += 1
+            self.prect = pg.Rect((self.x, self.y), (20, 40))
+
         """else:
             g = False
             fon = pg.font.Font(None, 50)
@@ -80,7 +94,6 @@ class Mur:
     """Un mur."""
 
     def __init__(self, x, y):
-
         self.taille = (120, 140)
         self.x = x
         self.y = y
