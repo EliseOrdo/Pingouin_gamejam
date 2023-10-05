@@ -46,7 +46,7 @@ class Pingouin:
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
-        for mur in liste_murs:
+        for mur in Liste.murs:
             # print(self.x, sel
             if self.touche_truc(mur):
                 # print('A')
@@ -65,6 +65,8 @@ class Pingouin:
         global g
         vit = 22
         if self.touche_qui_ou() is False:
+          
+          
             if touche == pg.K_UP:
                 self.y -= vit
 
@@ -117,20 +119,35 @@ class Cible:
         self.couleur = (140, 220, 250)
         self.cache = False
 
-    # nouveau
+    # nouveau 
     def touche_cible(self, pingouin):
         """Renvoie vrai si le pingouin touche la cible."""
         if pingouin.touche_truc(self):
             self.cache = True
             ping.cache = True
 
+class Liste:
+    """pour faire les listes des trucs."""
+    def __init__(self):
+        self.pingouins = []
+        self.murs = []
+        self.cibles = []
+        
+    def make_listes(self):
+        """fait les listes ."""
+        self.pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
+        self.murs = [Mur(random.randint(0, 800), random.randint(0, 1000)) for j in range(random.randint(1, 15))]
+        self.cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
+        
+    
+
     # nouveau
-    def coll_cibles(self):
+    def coll_pote(self, obj):
         """Vérifie que la cible est dans une (autre) cible."""
-        for cible in liste_cibles:
+        for cible in self.obj:
             x1, x2 = (cible.x, cible.y), (cible.x + cible.taille[0], cible.y)
             y1, y2 = (cible.x, cible.y + cible.taille[1]), (cible.x + cible.taille[0], cible.y + cible.taille[1])
-            for truc in liste_cibles:
+            for truc in self.cibles:
                 x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
                 y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
@@ -139,7 +156,7 @@ class Cible:
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
                     self.change(truc)
-            for truc in liste_murs:
+            for truc in self.murs:
                 x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
                 y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
@@ -148,7 +165,7 @@ class Cible:
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
                     self.change(truc)
-            for truc in liste_pingouins:
+            for truc in self.pingouins:
                 x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
                 y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
@@ -169,16 +186,19 @@ class Cible:
             cible.y += 10
         else:
             cible.y -= 800
-        self.coll_cibles()
-
-
-pingcibles = random.randint(0, 15)
+        self.coll_pote()
+        
+        
+pingcibles = random.randint(1, 15)
+print(pingcibles)
+Liste = Liste()
+Liste.make_listes()
 # cible1 = Cible(230, 240)
 # mur1 = Mur(100, 100)
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140)) for j in range(random.randint(1, 15))]
+
 # ping = Pingouin(0, 0)
-liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
+
+
 runningf = True
 while runningf:
     for event in pg.event.get():
@@ -186,24 +206,24 @@ while runningf:
             runningf = False
         if event.type == pg.KEYDOWN:
             mouvements += 1
-            for pingouin in liste_pingouins:
+            for pingouin in Liste.pingouins:
                 if not pingouin.cache:
                     pingouin.move(event.key)
-            for cible in liste_cibles:
+            for cible in Liste.cibles:
                 if not cible.cache:
-                    for ping in liste_pingouins:
+                    for ping in Liste.pingouins:
                         cible.touche_cible(ping)
     screen.blit(background, (0, 0))
     # pg.draw.rect(screen, cible1.couleur, cible1.crect)
-    for cible in liste_cibles:
+    for cible in Liste.cibles:
         if not cible.cache:
             pg.draw.rect(screen, cible.couleur, cible.crect)
     # pg.draw.rect(screen, (250, 250, 250), mur1.mrect)
-    for mur in liste_murs:
+    for mur in Liste.murs:
         pg.draw.rect(screen, mur.couleur, mur.mrect)
     # pg.draw.rect(screen, (250, 250, 250), ping.prect)
     # pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
-    for ping in liste_pingouins:
+    for ping in Liste.pingouins:
         if not ping.cache:
             pg.draw.rect(screen, (250, 250, 250), ping.prect)
             pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
