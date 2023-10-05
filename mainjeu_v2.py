@@ -61,7 +61,6 @@ class Pingouin:
         global g
         vit = 22
         if self.touche_qui_ou() is False:
-            mouvements += 1
             if touche == pg.K_UP:
                 self.y -= vit
 
