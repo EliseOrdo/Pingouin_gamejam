@@ -38,7 +38,11 @@ class Pingouin:
         hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return hg or basg or hd or bd
+        g = 0 > x1[0]
+        h = 0 > x1[1]
+        d = 1000 < x2[0]
+        b = 800 < y1[1]
+        return hg or basg or hd or bd or g or h or d or b
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
@@ -61,7 +65,8 @@ class Pingouin:
         global g
         vit = 22
         if self.touche_qui_ou() is False:
-            
+          
+          
             if touche == pg.K_UP:
                 self.y -= vit
 
@@ -94,8 +99,8 @@ class Pingouin:
 class Mur:
     """Un mur."""
 
-    def __init__(self, x, y):
-        self.taille = (120, 140)
+    def __init__(self, x, y, taille):
+        self.taille = taille
         self.x = x
         self.y = y
         self.mrect = pg.Rect((x, y), self.taille)
@@ -169,9 +174,6 @@ class Liste:
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
                     self.change(truc)
-    #def coll_autre(self):
-        """Vérifie que ça touche pas un autre truc."""
-        
 
     # nouveau
     def change(self, cible):
