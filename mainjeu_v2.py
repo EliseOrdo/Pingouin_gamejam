@@ -27,8 +27,7 @@ class Pingouin:
         # Le point (x,y) est le point en haut à gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
 
-    def touche_truc(self,
-                    truc):  # fonction pareille mais pour tous objets : pingouins dans prnigouins et d'ailleurs les bords aussi (= murs ???)
+    def touche_truc(self, truc):
         """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
@@ -49,7 +48,8 @@ class Pingouin:
                 return True
         return False
 
-    def perdu(self):
+    @staticmethod
+    def perdu():
         """Le text quand c'est perdu."""
         fon = pg.font.Font(None, 50)
         screen.blit(fon.render("PERDUUUU", 1, (0, 100, 255)), (425, 350))
@@ -62,16 +62,12 @@ class Pingouin:
         if self.touche_qui_ou() is False:
             if touche == pg.K_UP:
                 self.y -= vit
-                mouvements += 1
             elif touche == pg.K_DOWN:
                 self.y += vit
-                mouvements += 1
             elif touche == pg.K_RIGHT:
                 self.x += vit
-                mouvements += 1
             elif touche == pg.K_LEFT:
                 self.x -= vit
-                mouvements += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
         while self.touche_qui_ou() is True:
@@ -135,28 +131,53 @@ class Cible:
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
                     self.change(truc)
+            for truc in liste_murs:
+                x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
+                y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
+                hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+                hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+                basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+                bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+                if hg or basg or hd or bd:
+                    self.change(truc)
+            for truc in liste_pingouins:
+                x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
+                y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
+                hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+                hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+                basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+                bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+                if hg or basg or hd or bd:
+                    self.change(truc)
 
     # nouveau
     def change(self, cible):
         """Change les coordonnées de la cible à changer."""
-        cible.x += 10
-        cible.y += 10
+        if cible.x >= 100:
+            cible.x += 10
+        else:
+            cible.x -= 10
+        if cible.y >= 800:
+            cible.y += 10
+        else:
+            cible.y -= 800
         self.coll_cibles()
 
 
 pingcibles = random.randint(0, 15)
 # cible1 = Cible(230, 240)
-liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
 # mur1 = Mur(100, 100)
 liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000)) for j in range(random.randint(1, 15))]
 # ping = Pingouin(0, 0)
 liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
+liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
 runningf = True
 while runningf:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             runningf = False
         if event.type == pg.KEYDOWN:
+            mouvements += 1
             for pingouin in liste_pingouins:
                 pingouin.move(event.key)
             for cible in liste_cibles:
