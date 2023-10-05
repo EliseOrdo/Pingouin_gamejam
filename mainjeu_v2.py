@@ -119,7 +119,7 @@ class Cible:
         """Renvoie vrai si le pingouin touche la cible."""
         if pingouin.touche_truc(self):
             self.cache = True
-            ping.cache = True
+            pingouin.cache = True
 
 class Liste:
     """pour faire les listes des trucs."""
@@ -141,52 +141,52 @@ class Liste:
     # nouveau
     def coll_pote(self, obj):
         """Vérifie que la cible est dans une (autre) cible."""
-        for cible in obj:
-            x1, x2 = (cible.x, cible.y), (cible.x + cible.taille[0], cible.y)
-            y1, y2 = (cible.x, cible.y + cible.taille[1]), (cible.x + cible.taille[0], cible.y + cible.taille[1])
-            for truc in self.cibles:
-                x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
-                y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
+        for i in range(len(obj)):
+            x1, x2 = (obj[i].x, obj[i].y), (obj[i].x + obj[i].taille[0], obj[i].y)
+            y1, y2 = (obj[i].x, obj[i].y + obj[i].taille[1]), (obj[i].x + obj[i].taille[0], obj[i].y + obj[i].taille[1])
+            for truc in range(len(self.cibles)):
+                x3, x4 = (self.cibles[truc].x, self.cibles[truc].y), (self.cibles[truc].x + self.cibles[truc].taille[0], self.cibles[truc].y)
+                y3, y4 = (self.cibles[truc].x, self.cibles[truc].y + self.cibles[truc].taille[1]), (self.cibles[truc].x + self.cibles[truc].taille[0], self.cibles[truc].y + self.cibles[truc].taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
                 hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
                 basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
-                    self.change(truc)
-            for truc in self.murs:
-                x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
-                y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
+                    self.change(self.cibles, truc)
+            for truc in range(len(self.murs)):
+                x3, x4 = (self.murs[truc].x, self.murs[truc].y), (self.murs[truc].x + self.murs[truc].taille[0], self.murs[truc].y)
+                y3, y4 = (self.murs[truc].x, self.murs[truc].y + self.murs[truc].taille[1]), (self.murs[truc].x + self.murs[truc].taille[0], self.murs[truc].y + self.murs[truc].taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
                 hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
                 basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
-                    self.change(truc)
-            for truc in self.pingouins:
-                x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
-                y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
+                    self.change(self.murs, truc)
+            for truc in range(len(self.pingouins)):
+                x3, x4 = (self.pingouins[truc].x, self.pingouins[truc].y), (self.pingouins[truc].x + self.pingouins[truc].taille[0], self.pingouins[truc].y)
+                y3, y4 = (self.pingouins[truc].x, self.pingouins[truc].y + self.pingouins[truc].taille[1]), (self.pingouins[truc].x + self.pingouins[truc].taille[0], self.pingouins[truc].y + self.pingouins[truc].taille[1])
                 hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
                 hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
                 basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
-                    self.change(truc)
+                    self.change(self.pingouins, truc)
                     
     #def coll_autre(self):
         """Vérifie que ça touche pas un autre truc."""
         
 
     # nouveau
-    def change(self, cible):
+    def change(self, liste, ind):
         """Change les coordonnées de la cible à changer."""
-        if cible.x >= 100:
-            cible.x += 10
+        if liste[ind].x >= 100:
+            liste[ind].x += 10
         else:
-            cible.x -= 10
-        if cible.y >= 800:
-            cible.y += 10
+            liste[ind].x -= 10
+        if liste[ind].y >= 800:
+            liste[ind].y += 10
         else:
-            cible.y -= 800
+            liste[ind].y -= 800
         
         self.coll_pote(self.cibles)
         
@@ -212,27 +212,27 @@ while runningf:
             runningf = False
         if event.type == pg.KEYDOWN:
             mouvements += 1
-            for pingouin in Liste.pingouins:
-                if not pingouin.cache:
-                    pingouin.move(event.key)
-            for cible in Liste.cibles:
-                if not cible.cache:
-                    for ping in Liste.pingouins:
-                        cible.touche_cible(ping)
+            for pingind in range(len(Liste.pingouins)):
+                if not Liste.pingouins[pingind].cache:
+                    Liste.pingouins[pingind].move(event.key)
+            for ciblind in range(len(Liste.cibles)):
+                if not Liste.cibles[ciblind].cache:
+                    for ping in range(len(Liste.pingouins)):
+                        Liste.cibles[ciblind].touche_cible(Liste.pingouins[ping])
     screen.blit(background, (0, 0))
     # pg.draw.rect(screen, cible1.couleur, cible1.crect)
-    for cible in Liste.cibles:
-        if not cible.cache:
-            pg.draw.rect(screen, cible.couleur, cible.crect)
+    for ciblind in range(len(Liste.cibles)):
+        if not Liste.cibles[ciblind].cache:
+            pg.draw.rect(screen,Liste.cibles[ciblind].couleur, Liste.cibles[ciblind].crect)
     # pg.draw.rect(screen, (250, 250, 250), mur1.mrect)
-    for mur in Liste.murs:
-        pg.draw.rect(screen, mur.couleur, mur.mrect)
+    for murind in range(len(Liste.murs)):
+        pg.draw.rect(screen, Liste.murs[murind].couleur, Liste.murs[murind].mrect)
     # pg.draw.rect(screen, (250, 250, 250), ping.prect)
     # pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
-    for ping in Liste.pingouins:
-        if not ping.cache:
-            pg.draw.rect(screen, (250, 250, 250), ping.prect)
-            pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
+    for pingind in range(len(Liste.pingouins)):
+        if not Liste.pingouins[pingind].cache:
+            pg.draw.rect(screen, (250, 250, 250), Liste.pingouins[pingind].prect)
+            pg.draw.rect(screen, (0, 0, 0), Liste.pingouins[pingind].prect, 1)
     screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
 
     pg.display.flip()
