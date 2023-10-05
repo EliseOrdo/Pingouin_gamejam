@@ -26,6 +26,7 @@ class Pingouin:
         self.y = y
         # Le point (x,y) est le point en haut à gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
+        self.cache = False
 
     def touche_truc(self,
                     truc):  # fonction pareille mais pour tous objets : pingouins dans prnigouins et d'ailleurs les bords aussi (= murs ???)
@@ -60,18 +61,19 @@ class Pingouin:
         global g
         vit = 22
         if self.touche_qui_ou() is False:
+            mouvements += 1
             if touche == pg.K_UP:
                 self.y -= vit
-                mouvements += 1
+                
             elif touche == pg.K_DOWN:
                 self.y += vit
-                mouvements += 1
+               
             elif touche == pg.K_RIGHT:
                 self.x += vit
-                mouvements += 1
+                
             elif touche == pg.K_LEFT:
                 self.x -= vit
-                mouvements += 1
+                
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
         while self.touche_qui_ou() is True:
@@ -119,6 +121,7 @@ class Cible:
         """Renvoie vrai si le pingouin touche la cible."""
         if pingouin.touche_truc(self):
             self.cache = True
+            ping.cache = True
 
     # nouveau
     def coll_cibles(self):
@@ -158,10 +161,12 @@ while runningf:
             runningf = False
         if event.type == pg.KEYDOWN:
             for pingouin in liste_pingouins:
-                pingouin.move(event.key)
+                if not pingouin.cache:
+                    pingouin.move(event.key)
             for cible in liste_cibles:
-                for ping in liste_pingouins:
-                    cible.touche_cible(ping)
+                if not cible.cache:
+                    for ping in liste_pingouins:
+                        cible.touche_cible(ping)
     screen.blit(background, (0, 0))
     # pg.draw.rect(screen, cible1.couleur, cible1.crect)
     for cible in liste_cibles:
@@ -173,8 +178,9 @@ while runningf:
     # pg.draw.rect(screen, (250, 250, 250), ping.prect)
     # pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
     for ping in liste_pingouins:
-        pg.draw.rect(screen, (250, 250, 250), ping.prect)
-        pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
+        if not ping.cache:
+            pg.draw.rect(screen, (250, 250, 250), ping.prect)
+            pg.draw.rect(screen, (0, 0, 0), ping.prect, 1)
     screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
 
     pg.display.flip()
