@@ -38,7 +38,11 @@ class Pingouin:
         hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return hg or basg or hd or bd
+        g = 0 > x1[0]
+        h = 0 > x1[1]
+        d = 1000 < x2[0]
+        b = 800 < y1[1]
+        return hg or basg or hd or bd or g or h or d or b
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
@@ -93,8 +97,8 @@ class Pingouin:
 class Mur:
     """Un mur."""
 
-    def __init__(self, x, y):
-        self.taille = (120, 140)
+    def __init__(self, x, y, taille):
+        self.taille = taille
         self.x = x
         self.y = y
         self.mrect = pg.Rect((x, y), self.taille)
@@ -171,7 +175,7 @@ class Cible:
 pingcibles = random.randint(0, 15)
 # cible1 = Cible(230, 240)
 # mur1 = Mur(100, 100)
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000)) for j in range(random.randint(1, 15))]
+liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140)) for j in range(random.randint(1, 15))]
 # ping = Pingouin(0, 0)
 liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
 liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
