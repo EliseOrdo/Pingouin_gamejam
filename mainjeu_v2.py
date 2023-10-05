@@ -38,11 +38,7 @@ class Pingouin:
         hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        g = 0 > x1[0]
-        h = 0 > x1[1]
-        d = 1000 < x2[0]
-        b = 800 < y1[1]
-        return hg or basg or hd or bd or g or h or d or b
+        return hg or basg or hd or bd
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
@@ -65,8 +61,7 @@ class Pingouin:
         global g
         vit = 22
         if self.touche_qui_ou() is False:
-          
-          
+            
             if touche == pg.K_UP:
                 self.y -= vit
 
@@ -136,15 +131,17 @@ class Liste:
     def make_listes(self):
         """fait les listes ."""
         self.pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-        self.murs = [Mur(random.randint(0, 800), random.randint(0, 1000)) for j in range(random.randint(1, 15))]
+        self.murs = [Mur(random.randint(0, 800), random.randint(0, 1000),(120,140)) for j in range(random.randint(1, 15))]
         self.cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
-        
+        self.coll_pote(self.pingouins)
+        self.coll_pote(self.murs)
+        self.coll_pote(self.cibles)
     
 
     # nouveau
     def coll_pote(self, obj):
         """Vérifie que la cible est dans une (autre) cible."""
-        for cible in self.obj:
+        for cible in obj:
             x1, x2 = (cible.x, cible.y), (cible.x + cible.taille[0], cible.y)
             y1, y2 = (cible.x, cible.y + cible.taille[1]), (cible.x + cible.taille[0], cible.y + cible.taille[1])
             for truc in self.cibles:
@@ -174,6 +171,10 @@ class Liste:
                 bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
                 if hg or basg or hd or bd:
                     self.change(truc)
+                    
+    #def coll_autre(self):
+        """Vérifie que ça touche pas un autre truc."""
+        
 
     # nouveau
     def change(self, cible):
@@ -186,7 +187,12 @@ class Liste:
             cible.y += 10
         else:
             cible.y -= 800
-        self.coll_pote()
+        
+        self.coll_pote(self.cibles)
+        
+        self.coll_pote(self.pingouins)
+        
+        self.coll_pote(self.murs)
         
         
 pingcibles = random.randint(1, 15)
