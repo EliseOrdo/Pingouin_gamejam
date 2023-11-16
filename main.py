@@ -21,7 +21,7 @@ class Pingouin:
     """définie un pingouin."""
 
     def __init__(self, x, y):
-        self.taille = (28, 29)
+        self.taille = (18, 17)
         # (width = horizontal = axe x, height = vertical = axe y)
         self.x = x
         self.y = y
@@ -183,7 +183,7 @@ wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
 
 # Fait les listes
 
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140)) for j in range(random.randint(1, 2))]
+liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
 liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
 liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
 coll_pote(liste_pingouins)
