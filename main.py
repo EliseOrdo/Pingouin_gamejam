@@ -28,6 +28,7 @@ class Pingouin:
         # Le point (x,y) est le point en haut à gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
         self.cache = False
+        self.orientation = 'haut'
 
     def touche_truc(self, truc):
         """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
@@ -62,9 +63,11 @@ class Pingouin:
         """Fait bouger le pingouin."""
         global mouvements
         global g
+        global pin
         vit = 22
         if self.touche_qui_ou() is False:
-
+            
+            #Mouvement
             if touche == pg.K_UP:
                 self.y -= vit
             elif touche == pg.K_DOWN:
@@ -73,8 +76,67 @@ class Pingouin:
                 self.x += vit
             elif touche == pg.K_LEFT:
                 self.x -= vit
+            
+            #Rotation
+            if self.orientation == 'haut':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+            
+            elif self.orientation == 'droite':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+
+            elif self.orientation == 'gauche':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+
+            if self.orientation == 'bas':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
 
             self.prect = pg.Rect((self.x, self.y), (20, 40))
+            print(self.orientation)
+            
 
         while self.touche_qui_ou() is True:
             if touche == pg.K_UP:
