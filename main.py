@@ -30,6 +30,7 @@ class Pingouin:
         self.cache = False
         self.orientation = 'haut'
 
+
     def touche_truc(self, truc):
         """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
@@ -66,7 +67,6 @@ class Pingouin:
         global pin
         vit = 22
         if self.touche_qui_ou() is False:
-            
             #Mouvement
             if touche == pg.K_UP:
                 self.y -= vit
@@ -76,7 +76,7 @@ class Pingouin:
                 self.x += vit
             elif touche == pg.K_LEFT:
                 self.x -= vit
-            
+
             #Rotation
             if self.orientation == 'haut':
                 if touche == pg.K_RIGHT:
@@ -235,22 +235,91 @@ def change(liste, ind):
     coll_pote(liste_murs)
 
 
-# pingcibles = random.randint(1, 10)
-pingcibles = 1
+# pg.Rect.colliderect(Rect) pour collisions entre 2 rectangles pas penchés
 
-pin = pg.image.load("dessins/ping.png").convert_alpha()
-ci = pg.image.load("dessins/water.png").convert_alpha()
-ice = pg.image.load("dessins/iceberg.png").convert_alpha()
-wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+"""def collautres(obj , liste):
+    if len(liste)<=1:
+        return False
+    for elt in liste[1::]:
+        if pg.Rect(obj.x,obj.y,obj.taille).colliderect(elt):
+            return True
+    return False"""
+    
+def coll(obj, liste):
+    x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
+    y1, y2 = (obj.x, obj.y + obj.taille[1]), (obj.x + obj.taille[0], obj.y + obj.taille[1])
+    for cib in range(len(liste)):
+        x3, x4 = (liste[cib].x, liste[cib].y), (
+            liste[cib].x + liste[cib].taille[0], liste[cib].y)
+        y3, y4 = (liste[cib].x, liste[cib].y + liste[cib].taille[1]), (
+            liste[cib].x + liste[cib].taille[0], liste[cib].y + liste[cib].taille[1])
+        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        if hg or basg or hd or bd:
+            #change(liste_cibles, cib)
+            return True
+
+
+# pingcibles = random.randint(1, 10)
+pingcibles = 3
+
+pin = pg.image.load("ping.png").convert_alpha()
+ci = pg.image.load("water.png").convert_alpha()
+ice = pg.image.load("iceberg.png").convert_alpha()
+wallpaper = pg.image.load("wallpapers_neige.png").convert_alpha()
 
 # Fait les listes
 
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
-liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
-coll_pote(liste_pingouins)
-coll_pote(liste_murs)
-coll_pote(liste_cibles)
+def lm(n):
+    li = []
+    while len(li) <= n:
+        ajout = True
+        m = Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140))
+        for j in range(len(li)):
+            if coll(m, li):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def lc(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Cible(random.randint(0, 800), random.randint(0, 1000))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def lp(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Pingouin(random.randint(0, 800), random.randint(0, 1000))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs) or coll(m, liste_cibles):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+
+liste_murs = lm(5)
+liste_cibles = lc(pingcibles)
+liste_pingouins = lp(pingcibles)
+
+#liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140)) for j in range(random.randint(1, 2)) if not collautres(liste_murs[j], liste_murs)]
+#liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
+#liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
+#coll_pote(liste_pingouins)
+#coll_pote(liste_murs)
+#coll_pote(liste_cibles)
+
 
 runningf = True
 while runningf:
