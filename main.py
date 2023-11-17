@@ -2,15 +2,9 @@
 import pygame as pg
 import random
 import sys
-<<<<<<< HEAD
-#import Phyphox2python as p2p
 import time
-import numpy
-=======
-import Phyphox2python as p2p
->>>>>>> 10d1932 (phyphox to python)
 
-#sys.setrecursionlimit(100000000)
+sys.setrecursionlimit(100000000)
 
 pg.init()
 fen_l = 1000
@@ -149,6 +143,7 @@ class Pingouin:
 
             self.prect = pg.Rect((self.x, self.y), (20, 40))
             
+
         while self.touche_qui_ou() is True:
             match touche :
                 case pg.K_UP:
@@ -259,15 +254,7 @@ class Cible:
             cibles_touchees += 1
             pingouin.cache = True
             self.anim = True
-            # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
-            # Met le pingouin au centre de la cible
-            screen.blit(cache, (pingouin.x, pingouin.y))
-            screen.blit(ci, (self.x, self.y))
-            pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
-            print(pingouin.x, pingouin.y)
-            print(self.x, self.y)
-            pg.display.update(pg.Rect(self.x, self.y, 40, 40))
-
+           
 
 
 def coll_pote(obj):
@@ -352,35 +339,15 @@ def compteur_temps():
 # pingcibles = random.randint(1, 10)
 pingcibles = 1
 
-
-"""def collautres(obj , liste):
-    if len(liste)<=1:
-        return False
-    for elt in liste[1::]:
-        if pg.Rect(obj.x,obj.y,obj.taille).colliderect(elt):
-            return True
-    return False"""
-    
-def coll(obj, liste):
-    x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
-    y1, y2 = (obj.x, obj.y + obj.taille[1]), (obj.x + obj.taille[0], obj.y + obj.taille[1])
-    for cib in range(len(liste)):
-        x3, x4 = (liste[cib].x, liste[cib].y), (
-            liste[cib].x + liste[cib].taille[0], liste[cib].y)
-        y3, y4 = (liste[cib].x, liste[cib].y + liste[cib].taille[1]), (
-            liste[cib].x + liste[cib].taille[0], liste[cib].y + liste[cib].taille[1])
-        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        if hg or basg or hd or bd:
-            #change(liste_cibles, cib)
-            return True
-
-
-# pingcibles = random.randint(1, 10)
-pingcibles = 3
-
+pin = pg.image.load("dessins/ping.png").convert_alpha()
+ci = pg.image.load("dessins/water.png").convert_alpha()
+ice = pg.image.load("dessins/iceberg.png").convert_alpha()
+wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
 
 # Fait les listes
 
@@ -420,16 +387,16 @@ while runningf:
         if ciblind.anim:
             screen.blit(ci1, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.2)
+            time.sleep(0.3)
             screen.blit(ci2, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.2)
+            time.sleep(0.3)
             screen.blit(ci3, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.2)
+            time.sleep(0.3)
             screen.blit(ci4, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.2)
+            time.sleep(0.3)
             screen.blit(cache, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
             ciblind.anim = False
