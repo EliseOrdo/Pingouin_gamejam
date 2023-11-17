@@ -2,6 +2,7 @@
 import pygame as pg
 import random
 import sys
+import time
 
 sys.setrecursionlimit(100000000)
 
@@ -135,7 +136,6 @@ class Pingouin:
                     screen.blit(pin, (self.x, self.y))
 
             self.prect = pg.Rect((self.x, self.y), (20, 40))
-            print(self.orientation)
             
 
         while self.touche_qui_ou() is True:
@@ -169,12 +169,15 @@ class Cible:
         self.y = y
         self.couleur = (140, 220, 250)
         self.cache = False
+        self.anim = False
 
     def touche_cible(self, pingouin):
         """Renvoie vrai si le pingouin touche la cible."""
         if pingouin.touche_truc(self):
             self.cache = True
             pingouin.cache = True
+            self.anim = True
+           
 
 
 def coll_pote(obj):
@@ -242,6 +245,11 @@ pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
 ice = pg.image.load("dessins/iceberg.png").convert_alpha()
 wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
 
 # Fait les listes
 
@@ -272,6 +280,22 @@ while runningf:
     for ciblind in liste_cibles:
         if not ciblind.cache:
             screen.blit(ci, (ciblind.x, ciblind.y))
+        if ciblind.anim:
+            screen.blit(ci1, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.3)
+            screen.blit(ci2, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.3)
+            screen.blit(ci3, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.3)
+            screen.blit(ci4, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.3)
+            screen.blit(cache, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            ciblind.anim = False
     for murind in range(len(liste_murs)):
         screen.blit(ice, (liste_murs[murind].x, liste_murs[murind].y))
     for pingind in range(len(liste_pingouins)):
