@@ -135,7 +135,7 @@ class Pingouin:
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
 
-            self.prect = pg.Rect((self.x, self.y), (20, 40))
+            self.prect = pg.Rect((self.x, self.y), (18, 17))
             
 
         while self.touche_qui_ou() is True:
@@ -147,7 +147,7 @@ class Pingouin:
                 self.x -= 1
             elif touche == pg.K_LEFT:
                 self.x += 1
-            self.prect = pg.Rect((self.x, self.y), (20, 40))
+            self.prect = pg.Rect((self.x, self.y), (18, 17))
 
 
 class Mur:
@@ -177,6 +177,14 @@ class Cible:
             self.cache = True
             pingouin.cache = True
             self.anim = True
+            #Met le pinguoin au centre de la cible
+            screen.blit(cache, (pingouin.x, pingouin.y))
+            screen.blit(ci, (self.x, self.y))
+            pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 18, 17))
+            print(pingouin.x, pingouin.y)
+            print(self.x, self.y)
+            #screen.blit(pin, (self.x + 11, self.y - 12))
+            pg.display.update(pg.Rect(self.x, self.y, 40, 40))
            
 
 
@@ -249,7 +257,7 @@ ci1 = pg.image.load("dessins/t1.png").convert_alpha()
 ci2 = pg.image.load("dessins/t2.png").convert_alpha()
 ci3 = pg.image.load("dessins/t3.png").convert_alpha()
 ci4 = pg.image.load("dessins/t4.png").convert_alpha()
-cache = pg.image.load("dessins/snow.png").convert_alpha()
+cache = pg.image.load("dessins/water.png").convert_alpha()
 
 # Fait les listes
 
