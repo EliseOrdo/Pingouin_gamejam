@@ -180,12 +180,12 @@ class Cible:
             #But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
             #Met le pinguoin au centre de la cible
             screen.blit(cache, (pingouin.x, pingouin.y))
-            screen.blit(ci, (self.x, self.y))
-            pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 18, 17))
+            #screen.blit(ci, (self.x, self.y))
+            pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
             print(pingouin.x, pingouin.y)
             print(self.x, self.y)
-            #screen.blit(pin, (self.x + 11, self.y - 12))
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
+            time.sleep(2)
            
 
 
