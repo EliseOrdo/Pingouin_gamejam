@@ -177,6 +177,7 @@ class Cible:
             self.cache = True
             pingouin.cache = True
             self.anim = True
+            #But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
             #Met le pinguoin au centre de la cible
             screen.blit(cache, (pingouin.x, pingouin.y))
             screen.blit(ci, (self.x, self.y))
