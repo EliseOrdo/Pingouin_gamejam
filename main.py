@@ -85,62 +85,63 @@ class Pingouin:
             
             #Rotation
             if self.orientation == 'haut':
-                if touche == pg.K_RIGHT:
+                if touche == pg.K_RIGHT  or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
+                elif touche == pg.K_DOWN or touche == pg.K_s:
                     self.orientation = 'bas'
                     pin = pg.transform.rotate(pin, 180)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
+                elif touche == pg.K_LEFT or touche == pg.K_q:
                     self.orientation = 'gauche'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
             
             elif self.orientation == 'droite':
-                if touche == pg.K_UP:
+                if touche == pg.K_UP or touche == pg.K_z:
                     self.orientation = 'haut'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
+                elif touche == pg.K_DOWN or touche == pg.K_s:
                     self.orientation = 'bas'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
+                elif touche == pg.K_LEFT or touche == pg.K_q:
                     self.orientation = 'gauche'
                     pin = pg.transform.rotate(pin, 180)
                     screen.blit(pin, (self.x, self.y))
 
             elif self.orientation == 'gauche':
-                if touche == pg.K_UP:
+                if touche == pg.K_UP or touche == pg.K_z:
                     self.orientation = 'haut'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
+                elif touche == pg.K_DOWN or touche == pg.K_s:
                     self.orientation = 'bas'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_RIGHT:
+                elif touche == pg.K_RIGHT or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, 180)
                     screen.blit(pin, (self.x, self.y))
 
             if self.orientation == 'bas':
-                if touche == pg.K_RIGHT:
+                if touche == pg.K_RIGHT or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_UP:
+                elif touche == pg.K_UP or touche == pg.K_z:
                     self.orientation = 'haut'
                     pin = pg.transform.rotate(pin, 180)
                     screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
+                elif touche == pg.K_LEFT or touche == pg.K_q:
                     self.orientation = 'gauche'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
 
             self.prect = pg.Rect((self.x, self.y), (18, 17))
+
             
 
         while self.touche_qui_ou() is True:
