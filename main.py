@@ -346,7 +346,7 @@ def compteur_temps():
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 1
+pingcibles = 2
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
@@ -356,7 +356,7 @@ ci1 = pg.image.load("dessins/t1.png").convert_alpha()
 ci2 = pg.image.load("dessins/t2.png").convert_alpha()
 ci3 = pg.image.load("dessins/t3.png").convert_alpha()
 ci4 = pg.image.load("dessins/t4.png").convert_alpha()
-cache = pg.image.load("dessins/water.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
 
 # Fait les listes
 
