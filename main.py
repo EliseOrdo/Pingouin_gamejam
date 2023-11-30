@@ -47,22 +47,34 @@ class Pingouin:
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
         y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
-        haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-        haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-        bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-        bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return haut_gauche or bas_gauche or haut_droit or bas_droit
-
-    def touche_qui_ou(self,):
-        """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
-        touche = False
+        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        return hg or basg or hd or bd
+   
+    def touche_qui_ou(self):
+        """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
+        a = False
+        h = 0 > self.y
+        ga = 0 > self.x
+        d = self.x + self.taille[0] > 1000
+        b = self.y + self.taille[1] > 800
+        if h or ga or d or b:
+            a = True
         for mur in liste_murs:
             if self.touche_truc(mur):
-                touche = True
+                a = True
         for pin in liste_pingouins:
             if self.touche_truc(pin):
-                touche = True
-        return touche
+                a = True
+        return a
+
+    @staticmethod
+    def perdu():
+        """Le texte quand c'est perdu."""
+        fon = pg.font.Font(None, 50)
+        screen.blit(fon.render("PERDUUUU", 1, (0, 100, 255)), (425, 350))
 
     def move(self, touche):
         """Fait bouger le pingouin."""
