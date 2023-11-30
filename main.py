@@ -41,18 +41,24 @@ class Pingouin:
         hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        h = 0 > x1[1]
-        ga = 0 > x1[0]
-        d = y2[0] > 1000
-        b = y1[1] > 800
-        return hg or basg or hd or bd or h or ga or d or b
-
+        return hg or basg or hd or bd
+   
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
+        a = False
+        h = 0 > self.y
+        ga = 0 > self.x
+        d = self.x + self.taille[0] > 1000
+        b = self.y + self.taille[1] > 800
+        if h or ga or d or b:
+            a = True
         for mur in liste_murs:
             if self.touche_truc(mur):
-                return True
-        return False
+                a = True
+        for pin in liste_pingouins:
+            if self.touche_truc(pin):
+                a = True
+        return a
 
     @staticmethod
     def perdu():
