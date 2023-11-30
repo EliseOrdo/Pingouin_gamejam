@@ -68,7 +68,7 @@ class Pingouin:
         vit = 22
         if self.touche_qui_ou() is False:
             
-            #Mouvement
+            #Mouvement simples
             if touche == pg.K_UP:
                 self.y -= vit
             elif touche == pg.K_DOWN:
@@ -78,6 +78,23 @@ class Pingouin:
             elif touche == pg.K_LEFT:
                 self.x -= vit
             
+            #Mouvements glissés
+            #TIPHAINE : UN PETIT UPDATE??
+            if touche == pg.K_z:
+                while not self.touche_qui_ou():
+                    self.y -= 1
+            elif touche == pg.K_s:
+                while not self.touche_qui_ou():
+                    self.y += 1
+            elif touche == pg.K_d:
+                while not self.touche_qui_ou():
+                    self.x += 1
+            elif touche == pg.K_q:
+                while not self.touche_qui_ou():
+                    self.x -= 1
+            
+
+
             #Rotation
             if self.orientation == 'haut':
                 if touche == pg.K_RIGHT  or touche == pg.K_d:
@@ -249,7 +266,7 @@ def change(liste, ind):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 1
+pingcibles = 2
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
@@ -259,7 +276,7 @@ ci1 = pg.image.load("dessins/t1.png").convert_alpha()
 ci2 = pg.image.load("dessins/t2.png").convert_alpha()
 ci3 = pg.image.load("dessins/t3.png").convert_alpha()
 ci4 = pg.image.load("dessins/t4.png").convert_alpha()
-cache = pg.image.load("dessins/water.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
 
 # Fait les listes
 
