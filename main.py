@@ -18,20 +18,20 @@ text = font.render(str(mouvements), 1, (0, 100, 255))
 
 
 class Pingouin:
-    """définie un pingouin."""
+    """definie un pingouin."""
 
     def __init__(self, x, y):
         self.taille = (18, 17)
         # (width = horizontal = axe x, height = vertical = axe y)
         self.x = x
         self.y = y
-        # Le point (x,y) est le point en haut à gauche de rectangle.
+        # Le point (x,y) est le point en haut a gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
         self.cache = False
         self.orientation = 'haut'
 
     def touche_truc(self, truc):
-        """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
+        """Verifie si le pinguoin touche le truc (le truc doit avoir x et y en parametre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
@@ -47,7 +47,7 @@ class Pingouin:
         return hg or basg or hd or bd or h or ga or d or b
 
     def touche_qui_ou(self):
-        """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
+        """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
         for mur in liste_murs:
             if self.touche_truc(mur):
                 return True
@@ -178,7 +178,7 @@ class Cible:
 
 
 def coll_pote(obj):
-    """Vérifie que la cible est dans une (autre) cible."""
+    """Verifie que la cible est dans une (autre) cible."""
     for i in range(len(obj)):
         x1, x2 = (obj[i].x, obj[i].y), (obj[i].x + obj[i].taille[0], obj[i].y)
         y1, y2 = (obj[i].x, obj[i].y + obj[i].taille[1]), (obj[i].x + obj[i].taille[0], obj[i].y + obj[i].taille[1])
@@ -218,7 +218,7 @@ def coll_pote(obj):
 
 
 def change(liste, ind):
-    """Change les coordonnées de la cible à changer."""
+    """Change les coordonnees de la cible a changer."""
     if liste[ind].x >= 1000:
         liste[ind].x -= 10
     elif liste[ind].x <= 0:
