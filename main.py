@@ -32,7 +32,7 @@ class Pingouin:
         self.orientation = 'haut'
 
     def touche_truc(self, truc):
-        """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
+        """Vérifie si le pingouin touche le truc (le truc doit avoir x et y en paramètre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
@@ -42,7 +42,7 @@ class Pingouin:
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
         return hg or basg or hd or bd
-   
+
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
         a = False
@@ -73,8 +73,8 @@ class Pingouin:
         global pin
         vit = 22
         if self.touche_qui_ou() is False:
-            
-            #Mouvement simples
+
+            # Mouvement simples
             if touche == pg.K_UP:
                 self.y -= vit
             elif touche == pg.K_DOWN:
@@ -83,9 +83,9 @@ class Pingouin:
                 self.x += vit
             elif touche == pg.K_LEFT:
                 self.x -= vit
-            
-            #Mouvements glissés
-            #TIPHAINE : UN PETIT UPDATE??
+
+            # Mouvements glissés
+            # TIPHAINE : UN PETIT UPDATE??
             if touche == pg.K_z:
                 while not self.touche_qui_ou():
                     self.y -= 1
@@ -98,12 +98,10 @@ class Pingouin:
             elif touche == pg.K_q:
                 while not self.touche_qui_ou():
                     self.x -= 1
-            
 
-
-            #Rotation
+            # Rotation
             if self.orientation == 'haut':
-                if touche == pg.K_RIGHT  or touche == pg.K_d:
+                if touche == pg.K_RIGHT or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
@@ -115,7 +113,7 @@ class Pingouin:
                     self.orientation = 'gauche'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
-            
+
             elif self.orientation == 'droite':
                 if touche == pg.K_UP or touche == pg.K_z:
                     self.orientation = 'haut'
@@ -160,8 +158,6 @@ class Pingouin:
 
             self.prect = pg.Rect((self.x, self.y), (18, 17))
 
-            
-
         while self.touche_qui_ou() is True:
             if touche == pg.K_UP or touche == pg.K_z:
                 self.y += 1
@@ -201,16 +197,15 @@ class Cible:
             self.cache = True
             pingouin.cache = True
             self.anim = True
-            #But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
-            #Met le pinguoin au centre de la cible
+            # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
+            # Met le pingouin au centre de la cible
             screen.blit(cache, (pingouin.x, pingouin.y))
-            #screen.blit(ci, (self.x, self.y))
+            # screen.blit(ci, (self.x, self.y))
             pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
             print(pingouin.x, pingouin.y)
             print(self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
             time.sleep(2)
-           
 
 
 def coll_pote(obj):
