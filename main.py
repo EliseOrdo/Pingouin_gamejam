@@ -70,12 +70,6 @@ class Pingouin:
                 a = True
         return a
 
-    @staticmethod
-    def perdu():
-        """Le texte quand c'est perdu."""
-        fon = pg.font.Font(None, 50)
-        screen.blit(fon.render("PERDUUUU", 1, (0, 100, 255)), (425, 350))
-
     def move(self, touche):
         """Fait bouger le pingouin."""
         global mouvements
