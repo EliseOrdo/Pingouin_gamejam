@@ -63,7 +63,6 @@ class Pingouin:
     def move(self, touche):
         """Fait bouger le pingouin."""
         global mouvements
-        global g
         global pin
         vit = 22
         if self.touche_qui_ou() is False:
