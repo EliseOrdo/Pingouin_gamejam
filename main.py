@@ -142,7 +142,7 @@ class Pingouin:
                     pin = pg.transform.rotate(pin, 180)
                     screen.blit(pin, (self.x, self.y))
 
-            if self.orientation == 'bas':
+            elif self.orientation == 'bas':
                 if touche == pg.K_RIGHT or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, 90)
@@ -200,7 +200,7 @@ class Cible:
             # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
             # Met le pingouin au centre de la cible
             screen.blit(cache, (pingouin.x, pingouin.y))
-            # screen.blit(ci, (self.x, self.y))
+            screen.blit(ci, (self.x, self.y))
             pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
             print(pingouin.x, pingouin.y)
             print(self.x, self.y)
