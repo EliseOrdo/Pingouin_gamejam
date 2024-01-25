@@ -52,7 +52,7 @@ class Pingouin:
         basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
         return hg or basg or hd or bd
-   
+
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
         a = False
@@ -97,7 +97,7 @@ class Pingouin:
             
             #Rotation
             if self.orientation == 'haut':
-                if touche == pg.K_RIGHT  or touche == pg.K_d:
+                if touche == pg.K_RIGHT or touche == pg.K_d:
                     self.orientation = 'droite'
                     pin = pg.transform.rotate(pin, -90)
                     screen.blit(pin, (self.x, self.y))
@@ -109,7 +109,7 @@ class Pingouin:
                     self.orientation = 'gauche'
                     pin = pg.transform.rotate(pin, 90)
                     screen.blit(pin, (self.x, self.y))
-            
+
             elif self.orientation == 'droite':
                 if touche == pg.K_UP or touche == pg.K_z:
                     self.orientation = 'haut'
@@ -153,8 +153,6 @@ class Pingouin:
                     screen.blit(pin, (self.x, self.y))
 
             self.prect = pg.Rect((self.x, self.y), (18, 17))
-
-            
 
         while self.touche_qui_ou() is True:
             match touche :
@@ -266,16 +264,15 @@ class Cible:
             cibles_touchees += 1
             pingouin.cache = True
             self.anim = True
-            #But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
-            #Met le pinguoin au centre de la cible
+            # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
+            # Met le pingouin au centre de la cible
             screen.blit(cache, (pingouin.x, pingouin.y))
-            #screen.blit(ci, (self.x, self.y))
+            # screen.blit(ci, (self.x, self.y))
             pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
             print(pingouin.x, pingouin.y)
             print(self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
             time.sleep(2)
-           
 
 
 def coll_pote(obj):
