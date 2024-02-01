@@ -258,7 +258,7 @@ def change(liste, ind):
     coll_pote(liste_murs)
 
 
-# pingcibles = random.randint(1, 10) j
+# pingcibles = random.randint(1, 10)
 pingcibles = 1
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
