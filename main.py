@@ -382,7 +382,7 @@ ci3 = pg.image.load("dessins/t3.png").convert_alpha()
 ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 cache = pg.image.load("dessins/snow.png").convert_alpha()
 
-# Fait les listes
+# Fait les listes .
 
 liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
 liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
