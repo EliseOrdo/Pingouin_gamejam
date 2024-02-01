@@ -6,11 +6,18 @@ import sys
 sys.setrecursionlimit(100000000)
 
 pg.init()
-screen = pg.display.set_mode((1000, 800))
+fen_l = 1000
+fen_h = 800
+screen = pg.display.set_mode((fen_l, fen_h))
 
 background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
+
+pin = pg.image.load("ping.png").convert_alpha()
+ci = pg.image.load("water.png").convert_alpha()
+ice = pg.image.load("iceberg.png").convert_alpha()
+wallpaper = pg.image.load("wallpapers_neige.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
@@ -77,65 +84,7 @@ class Pingouin:
             elif touche == pg.K_LEFT:
                 self.x -= vit
 
-            #Rotation
-            if self.orientation == 'haut':
-                if touche == pg.K_RIGHT:
-                    self.orientation = 'droite'
-                    pin = pg.transform.rotate(pin, -90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
-                    self.orientation = 'bas'
-                    pin = pg.transform.rotate(pin, 180)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
-                    self.orientation = 'gauche'
-                    pin = pg.transform.rotate(pin, 90)
-                    screen.blit(pin, (self.x, self.y))
-            
-            elif self.orientation == 'droite':
-                if touche == pg.K_UP:
-                    self.orientation = 'haut'
-                    pin = pg.transform.rotate(pin, 90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
-                    self.orientation = 'bas'
-                    pin = pg.transform.rotate(pin, -90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
-                    self.orientation = 'gauche'
-                    pin = pg.transform.rotate(pin, 180)
-                    screen.blit(pin, (self.x, self.y))
-
-            elif self.orientation == 'gauche':
-                if touche == pg.K_UP:
-                    self.orientation = 'haut'
-                    pin = pg.transform.rotate(pin, -90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_DOWN:
-                    self.orientation = 'bas'
-                    pin = pg.transform.rotate(pin, 90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_RIGHT:
-                    self.orientation = 'droite'
-                    pin = pg.transform.rotate(pin, 180)
-                    screen.blit(pin, (self.x, self.y))
-
-            if self.orientation == 'bas':
-                if touche == pg.K_RIGHT:
-                    self.orientation = 'droite'
-                    pin = pg.transform.rotate(pin, 90)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_UP:
-                    self.orientation = 'haut'
-                    pin = pg.transform.rotate(pin, 180)
-                    screen.blit(pin, (self.x, self.y))
-                elif touche == pg.K_LEFT:
-                    self.orientation = 'gauche'
-                    pin = pg.transform.rotate(pin, -90)
-                    screen.blit(pin, (self.x, self.y))
-
             self.prect = pg.Rect((self.x, self.y), (20, 40))
-            print(self.orientation)
             
 
         while self.touche_qui_ou() is True:
@@ -149,6 +98,70 @@ class Pingouin:
                 self.x += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
+    def tourne(self, touche):
+        
+        global pin
+        
+        #Rotation
+        if self.orientation == 'haut':
+            if touche == pg.K_RIGHT:
+                self.orientation = 'droite'
+                pin = pg.transform.rotate(pin, -90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_DOWN:
+                self.orientation = 'bas'
+                pin = pg.transform.rotate(pin, 180)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_LEFT:
+                self.orientation = 'gauche'
+                pin = pg.transform.rotate(pin, 90)
+                screen.blit(pin, (self.x, self.y))
+            print(self.orientation)
+        
+        elif self.orientation == 'droite':
+            if touche == pg.K_UP:
+                self.orientation = 'haut'
+                pin = pg.transform.rotate(pin, 90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_DOWN:
+                self.orientation = 'bas'
+                pin = pg.transform.rotate(pin, -90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_LEFT:
+                self.orientation = 'gauche'
+                pin = pg.transform.rotate(pin, 180)
+                screen.blit(pin, (self.x, self.y))
+            print(self.orientation)
+
+        elif self.orientation == 'gauche':
+            if touche == pg.K_UP:
+                self.orientation = 'haut'
+                pin = pg.transform.rotate(pin, -90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_DOWN:
+                self.orientation = 'bas'
+                pin = pg.transform.rotate(pin, 90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_RIGHT:
+                self.orientation = 'droite'
+                pin = pg.transform.rotate(pin, 180)
+                screen.blit(pin, (self.x, self.y))
+            print(self.orientation)
+
+        elif self.orientation == 'bas':
+            if touche == pg.K_RIGHT:
+                self.orientation = 'droite'
+                pin = pg.transform.rotate(pin, 90)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_UP:
+                self.orientation = 'haut'
+                pin = pg.transform.rotate(pin, 180)
+                screen.blit(pin, (self.x, self.y))
+            elif touche == pg.K_LEFT:
+                self.orientation = 'gauche'
+                pin = pg.transform.rotate(pin, -90)
+                screen.blit(pin, (self.x, self.y))
+            print(self.orientation)
 
 class Mur:
     """Un mur."""
@@ -263,12 +276,7 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 3
-
-pin = pg.image.load("ping.png").convert_alpha()
-ci = pg.image.load("water.png").convert_alpha()
-ice = pg.image.load("iceberg.png").convert_alpha()
-wallpaper = pg.image.load("wallpapers_neige.png").convert_alpha()
+pingcibles = 4
 
 # Fait les listes
 
@@ -276,7 +284,7 @@ def lm(n):
     li = []
     while len(li) <= n:
         ajout = True
-        m = Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140))
+        m = Mur(random.randint(0, fen_l-120), random.randint(0, fen_h-129), (120, 129))
         for j in range(len(li)):
             if coll(m, li):
                 ajout = False
@@ -288,7 +296,7 @@ def lc(n):
     li = []
     while len(li) < n:
         ajout = True
-        m = Cible(random.randint(0, 800), random.randint(0, 1000))
+        m = Cible(random.randint(0, fen_l-40), random.randint(0, fen_h-40))
         for j in range(len(li)):
             if coll(m, li) or coll(m, liste_murs):
                 ajout = False
@@ -300,7 +308,7 @@ def lp(n):
     li = []
     while len(li) < n:
         ajout = True
-        m = Pingouin(random.randint(0, 800), random.randint(0, 1000))
+        m = Pingouin(random.randint(0, fen_l-18), random.randint(0, fen_h-17))
         for j in range(len(li)):
             if coll(m, li) or coll(m, liste_murs) or coll(m, liste_cibles):
                 ajout = False
@@ -328,6 +336,7 @@ while runningf:
         if event.type == pg.QUIT:
             runningf = False
         if event.type == pg.KEYDOWN:
+            liste_pingouins[0].tourne(event.key)
             mouvements += 1
             for pingind in range(len(liste_pingouins)):
                 if not liste_pingouins[pingind].cache:
@@ -349,3 +358,5 @@ while runningf:
     screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
     pg.display.flip()
 pg.quit()
+
+# rotation : il tourne l'image, toujours la même, même si il la copie colle
