@@ -347,7 +347,29 @@ def compteur_temps():
 
 
 
-# pingcibles = random.randint(1, 10)
+
+# pg.Rect.colliderect(Rect) pour collisions entre 2 rectangles pas penchés
+
+def compteur_temps():
+    """
+    Renvoie un tuple avec en position 0 les min a afficher et en position 1 les secondes
+    """
+    global start
+    t = int(time.time() - start)
+    sec = str(t%60) + ' sec'
+    if t%60 < 10 :
+        sec = '0' + sec
+    min = ''
+    if t >= 60 :
+        if t < 600 : 
+            min = '0' + str(t//60) + ' min'
+        else :
+            min = str(t//60) + ' min'
+    return (min, sec)
+
+
+
+# pingcibles = random.randint(1, 10) 
 pingcibles = 1
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
