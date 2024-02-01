@@ -185,8 +185,10 @@ class Cible:
 
     def touche_cible(self, pingouin):
         """Renvoie vrai si le pingouin touche la cible."""
+        global cibles_touchees
         if pingouin.touche_truc(self):
             self.cache = True
+            cibles_touchees += 1
             pingouin.cache = True
 
 
@@ -276,7 +278,7 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 4
+pingcibles = 1
 
 # Fait les listes
 
@@ -328,7 +330,7 @@ liste_pingouins = lp(pingcibles)
 #coll_pote(liste_murs)
 #coll_pote(liste_cibles)
 
-
+cibles_touchees = 0
 runningf = True
 while runningf:
     # PARTIE EVENTS
@@ -356,6 +358,11 @@ while runningf:
         if not liste_pingouins[pingind].cache:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
     screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
+    if cibles_touchees == pingcibles:
+        t = "Vous avez réussi en %s mouvements"%str(mouvements) 
+        text_fin = font.render("Bravo !!", 10, (0, 100, 255))
+        screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
+        screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
     pg.display.flip()
 pg.quit()
 
