@@ -266,7 +266,6 @@ class Cible:
             print(pingouin.x, pingouin.y)
             print(self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
-            time.sleep(2)
 
 
 def coll_pote(obj):
@@ -349,7 +348,7 @@ def compteur_temps():
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 2
+pingcibles = 1
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
@@ -399,16 +398,16 @@ while runningf:
         if ciblind.anim:
             screen.blit(ci1, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.3)
+            time.sleep(0.2)
             screen.blit(ci2, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.3)
+            time.sleep(0.2)
             screen.blit(ci3, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.3)
+            time.sleep(0.2)
             screen.blit(ci4, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            time.sleep(0.3)
+            time.sleep(0.2)
             screen.blit(cache, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
             ciblind.anim = False
