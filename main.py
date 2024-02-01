@@ -432,7 +432,7 @@ while runningf:
             time.sleep(0.2)
             screen.blit(cache, (ciblind.x, ciblind.y))
             pg.display.update((ciblind.x, ciblind.y, 40, 40))
-            ciblind.anim = False 
+            ciblind.anim = False
     for murind in range(len(liste_murs)):
         screen.blit(ice, (liste_murs[murind].x, liste_murs[murind].y))
     for pingind in range(len(liste_pingouins)):
