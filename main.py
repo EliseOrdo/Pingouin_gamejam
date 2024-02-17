@@ -47,28 +47,28 @@ class Pingouin:
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
         y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
-        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return hg or basg or hd or bd
+        haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        return haut_gauche or bas_gauche or haut_droit or bas_droit
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
-        a = False
-        h = 0 > self.y
-        ga = 0 > self.x
-        d = self.x + self.taille[0] > 1000
-        b = self.y + self.taille[1] > 800
-        if h or ga or d or b:
-            a = True
+        touche = False
+        haut = 0 > self.y
+        gauche = 0 > self.x
+        droite = self.x + self.taille[0] > 1000
+        bas = self.y + self.taille[1] > 800
+        if haut or gauche or droite or bas:
+            touche = True
         for mur in liste_murs:
             if self.touche_truc(mur):
-                a = True
+                touche = True
         for pin in liste_pingouins:
             if self.touche_truc(pin):
-                a = True
-        return a
+                touche = True
+        return touche
 
     def move(self, touche):
         """Fait bouger le pingouin."""
@@ -287,8 +287,8 @@ def coll_pote(obj):
 
         for m in range(len(liste_murs)):
             x3, x4 = (liste_murs[m].x, liste_murs[m].y), (liste_murs[m].x + liste_murs[m].taille[0], liste_murs[m].y)
-            y3, y4 = (liste_murs[m].x, liste_murs[m].y + liste_murs[m].taille[1]), (liste_murs[m].x + liste_murs[m].taille[0],
-                                                                                    liste_murs[m].y + liste_murs[m].taille[1])
+            y3, y4 = (liste_murs[m].x, liste_murs[m].y + liste_murs[m].taille[1]),
+            (liste_murs[m].x + liste_murs[m].taille[0], liste_murs[m].y + liste_murs[m].taille[1])
             haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
@@ -297,10 +297,10 @@ def coll_pote(obj):
                 change(liste_murs, m)
 
         for p in range(len(liste_pingouins)):
-            x3, x4 = ((liste_pingouins[p].x, liste_pingouins[p].y),
-                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y))
-            y3, y4 = ((liste_pingouins[p].x, liste_pingouins[p].y + liste_pingouins[p].taille[1]),
-                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y + liste_pingouins[p].taille[1]))
+            x3, x4 = (liste_pingouins[p].x, liste_pingouins[p].y), 
+            (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y)
+            y3, y4 = (liste_pingouins[p].x, liste_pingouins[p].y + liste_pingouins[p].taille[1]), 
+            (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y + liste_pingouins[p].taille[1])
             haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
