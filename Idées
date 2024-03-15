@@ -1,0 +1,5 @@
+Pour le phyphox : prendre en compte un vitesse supérieure à 0.5 radiants par secondes.
+
+Axe Oy : tourne autour de l'axe de la longueur
+Axe Ox : tourne autour de l'axe de la largeur
+Axe Oz : tourne autour de l'axe de la hauteur
