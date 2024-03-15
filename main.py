@@ -14,10 +14,10 @@ background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
 
-pin = pg.image.load("ping.png").convert_alpha()
-ci = pg.image.load("water.png").convert_alpha()
-ice = pg.image.load("iceberg.png").convert_alpha()
-wallpaper = pg.image.load("wallpapers_neige.png").convert_alpha()
+pin = pg.image.load("dessin/ping.png").convert_alpha()
+ci = pg.image.load("dessin/water.png").convert_alpha()
+ice = pg.image.load("dessin/iceberg.png").convert_alpha()
+wallpaper = pg.image.load("dessin/wallpapers_neige.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
@@ -172,7 +172,6 @@ class Mur:
         self.y = y
         self.couleur = (250, 250, 250)
 
-
 class Cible:
     """Je propose que le but soit d'aller dans l'eau, genre pour chercher du poisson."""
 
@@ -282,7 +281,7 @@ pingcibles = 1
 
 # Fait les listes
 
-def lm(n):
+def creer_liste_murs(n):
     li = []
     while len(li) <= n:
         ajout = True
@@ -294,7 +293,7 @@ def lm(n):
             li.append(m)
     return li
 
-def lc(n):
+def creer_liste_cibles(n):
     li = []
     while len(li) < n:
         ajout = True
@@ -306,7 +305,7 @@ def lc(n):
             li.append(m)
     return li
 
-def lp(n):
+def creer_liste_pingouin(n):
     li = []
     while len(li) < n:
         ajout = True
@@ -319,16 +318,10 @@ def lp(n):
     return li
 
 
-liste_murs = lm(5)
-liste_cibles = lc(pingcibles)
-liste_pingouins = lp(pingcibles)
+liste_murs = creer_liste_murs(5)
+liste_cibles = creer_liste_cibles(pingcibles)
+liste_pingouins = creer_liste_pingouin(pingcibles)
 
-#liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (120, 140)) for j in range(random.randint(1, 2)) if not collautres(liste_murs[j], liste_murs)]
-#liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-#liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
-#coll_pote(liste_pingouins)
-#coll_pote(liste_murs)
-#coll_pote(liste_cibles)
 
 cibles_touchees = 0
 runningf = True
