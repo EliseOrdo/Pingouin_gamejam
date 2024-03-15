@@ -67,14 +67,16 @@ class Pingouin:
         if self.touche_qui_ou() is False:
             
             #Mouvement
-            if touche == pg.K_UP:
-                self.y -= vit
-            elif touche == pg.K_DOWN:
-                self.y += vit
-            elif touche == pg.K_RIGHT:
-                self.x += vit
-            elif touche == pg.K_LEFT:
-                self.x -= vit
+            match touche:
+                case pg.K_UP:
+                    self.y -= vit
+                case pg.K_DOWN:
+                    self.y += vit
+                case pg.K_RIGHT:
+                    self.x += vit
+                case pg.K_LEFT:
+                    self.x -= vit
+                
             
             #Rotation
             if self.orientation == 'haut':
@@ -137,14 +139,15 @@ class Pingouin:
             print(self.orientation)
             
         while self.touche_qui_ou() is True:
-            if touche == pg.K_UP:
-                self.y += 1
-            elif touche == pg.K_DOWN:
-                self.y -= 1
-            elif touche == pg.K_RIGHT:
-                self.x -= 1
-            elif touche == pg.K_LEFT:
-                self.x += 1
+            match touche :
+                case pg.K_UP:
+                    self.y += 1
+                case pg.K_DOWN:
+                    self.y -= 1
+                case pg.K_RIGHT:
+                    self.x -= 1
+                case pg.K_LEFT:
+                    self.x += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
 
