@@ -11,19 +11,18 @@ import time
 
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.97.73:8080" 
+PP_ADDRESS = "http://192.168.14.41" 
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
 def Monitor(PP_ADDRESS):
-     #PP_CHANNELS = ["magX","magY","magZ"] # Name should be changed depending on the parameter
-     #PP_CHANNELS = ["pressure"]
-     #PP_CHANNELS = ["pCal","tempCal"] #For the sensor tag (also a version with Raw instead of 
-     # cal but the unites are weird)
-     PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération
+     """PP_CHANNELS = ["magX","magY","magZ"] # Name should be changed depending on the parameter
+     PP_CHANNELS = ["pressure"]
+     PP_CHANNELS = ["pCal","tempCal"] #For the sensor tag (also a version with Raw instead of 
+     cal but the unites are weird)
+     PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération"""
+     PP_CHANNELS = ["gyrX","gyrY","gyrZ"]
      
-     
-
      starturl = PP_ADDRESS + "/control?cmd=start"
      
      '''Connect to the phone by wifi'''
@@ -33,6 +32,7 @@ def Monitor(PP_ADDRESS):
      p3=0
      
      while True:
+         #PP_ADRESS/get?&
          url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
          data = requests.get(url=url).json()
          for i, channel in enumerate(PP_CHANNELS):
