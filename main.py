@@ -2,6 +2,8 @@
 import pygame as pg
 import random
 import sys
+import time
+import numpy
 
 #sys.setrecursionlimit(100000000)
 
@@ -12,9 +14,6 @@ background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
 
-mouvements = 0
-font = pg.font.Font(None, 24)
-text = font.render(str(mouvements), 1, (0, 100, 255))
 
 
 class Pingouin:
@@ -137,7 +136,6 @@ class Pingouin:
             self.prect = pg.Rect((self.x, self.y), (20, 40))
             print(self.orientation)
             
-
         while self.touche_qui_ou() is True:
             if touche == pg.K_UP:
                 self.y += 1
@@ -175,6 +173,7 @@ class Cible:
         if pingouin.touche_truc(self):
             self.cache = True
             pingouin.cache = True
+
 
 
 def coll_pote(obj):
@@ -229,10 +228,27 @@ def change(liste, ind):
         liste[ind].y -= 10
 
     coll_pote(liste_cibles)
-
     coll_pote(liste_pingouins)
-
     coll_pote(liste_murs)
+
+
+def compteur_temps():
+    """
+    Renvoie un tuple avec en position 0 les min a afficher et en position 1 les secondes
+    """
+    global start
+    t = int(time.time() - start)
+    sec = str(t%60) + ' sec'
+    if t%60 < 10 :
+        sec = '0' + sec
+    min = ''
+    if t >= 60 :
+        if t < 600 : 
+            min = '0' + str(t//60) + ' min'
+        else :
+            min = str(t//60) + ' min'
+    return (min, sec)
+
 
 
 # pingcibles = random.randint(1, 10)
@@ -252,6 +268,10 @@ coll_pote(liste_pingouins)
 coll_pote(liste_murs)
 coll_pote(liste_cibles)
 
+start = time.time()
+font = pg.font.Font(None, 24)
+
+
 runningf = True
 while runningf:
     # PARTIE EVENTS
@@ -259,7 +279,6 @@ while runningf:
         if event.type == pg.QUIT:
             runningf = False
         if event.type == pg.KEYDOWN:
-            mouvements += 1
             for pingind in range(len(liste_pingouins)):
                 if not liste_pingouins[pingind].cache:
                     liste_pingouins[pingind].move(event.key)
@@ -277,6 +296,7 @@ while runningf:
     for pingind in range(len(liste_pingouins)):
         if not liste_pingouins[pingind].cache:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
-    screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
+    screen.blit(font.render(compteur_temps()[1], 1, (0, 100, 255)), (950, 0))
+    screen.blit(font.render(compteur_temps()[0], 1, (0, 100, 255)), (895, 0))
     pg.display.flip()
 pg.quit()
