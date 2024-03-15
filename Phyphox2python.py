@@ -21,7 +21,7 @@ def Monitor(PP_ADDRESS):
      PP_CHANNELS = ["pCal","tempCal"] #For the sensor tag (also a version with Raw instead of 
      cal but the unites are weird)
      PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération"""
-     PP_CHANNELS = ["gyrX","gyrY","gyrZ"]
+     PP_CHANNELS = ["gyrX","gyrY","gyrZ"] #pour le gyroscope
      
      starturl = PP_ADDRESS + "/control?cmd=start"
      
