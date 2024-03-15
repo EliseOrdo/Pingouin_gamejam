@@ -3,7 +3,7 @@ import pygame as pg
 import random
 import sys
 
-sys.setrecursionlimit(100000000)
+#sys.setrecursionlimit(100000000)
 
 pg.init()
 screen = pg.display.set_mode((1000, 800))
