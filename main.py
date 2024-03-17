@@ -14,10 +14,10 @@ background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
 
-pin = pg.image.load("dessin/ping.png").convert_alpha()
-ci = pg.image.load("dessin/water.png").convert_alpha()
-ice = pg.image.load("dessin/iceberg.png").convert_alpha()
-wallpaper = pg.image.load("dessin/wallpapers_neige.png").convert_alpha()
+pin = pg.image.load("dessins/ping.png").convert_alpha()
+ci = pg.image.load("dessins/water.png").convert_alpha()
+ice = pg.image.load("dessins/iceberg.png").convert_alpha()
+wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
