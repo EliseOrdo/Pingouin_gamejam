@@ -277,7 +277,7 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 1
+pingcibles = 3
 
 # Fait les listes
 
