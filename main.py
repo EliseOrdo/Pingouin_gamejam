@@ -2,8 +2,10 @@
 import pygame as pg
 import random
 import sys
+import time
+import numpy
 
-sys.setrecursionlimit(100000000)
+#sys.setrecursionlimit(100000000)
 
 pg.init()
 fen_l = 1000
@@ -13,6 +15,7 @@ screen = pg.display.set_mode((fen_l, fen_h))
 background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
+
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
@@ -24,22 +27,23 @@ font = pg.font.Font(None, 24)
 text = font.render(str(mouvements), 1, (0, 100, 255))
 
 
+
 class Pingouin:
-    """définie un pingouin."""
+    """definie un pingouin."""
 
     def __init__(self, x, y):
         self.taille = (18, 17)
         # (width = horizontal = axe x, height = vertical = axe y)
         self.x = x
         self.y = y
-        # Le point (x,y) est le point en haut à gauche de rectangle.
+        # Le point (x,y) est le point en haut a gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
         self.cache = False
         self.orientation = 'haut'
 
 
     def touche_truc(self, truc):
-        """Vérifie si le pinguoin touche le truc (le truc doit avoir x et y en paramètre)."""
+        """Verifie si le pinguoin touche le truc (le truc doit avoir x et y en parametre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
@@ -55,7 +59,7 @@ class Pingouin:
         return hg or basg or hd or bd or h or ga or d or b
 
     def touche_qui_ou(self):
-        """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
+        """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
         for mur in liste_murs:
             if self.touche_truc(mur):
                 return True
@@ -75,6 +79,7 @@ class Pingouin:
         vit = 22
         if self.touche_qui_ou() is False:
             #Mouvement
+
             match touche:
                 case pg.K_UP:
                     self.y -= vit
@@ -84,12 +89,70 @@ class Pingouin:
                     self.x += vit
                 case pg.K_LEFT:
                     self.x -= vit
+                
+            
+            #Rotation
+            if self.orientation == 'haut':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+            
+            elif self.orientation == 'droite':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+
+            elif self.orientation == 'gauche':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+
+            if self.orientation == 'bas':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+
 
             self.prect = pg.Rect((self.x, self.y), (20, 40))
             
-
         while self.touche_qui_ou() is True:
-            match touche:
+            match touche :
                 case pg.K_UP:
                     self.y += 1
                 case pg.K_DOWN:
@@ -198,8 +261,9 @@ class Cible:
             pingouin.cache = True
 
 
+
 def coll_pote(obj):
-    """Vérifie que la cible est dans une (autre) cible."""
+    """Verifie que la cible est dans une (autre) cible."""
     for i in range(len(obj)):
         x1, x2 = (obj[i].x, obj[i].y), (obj[i].x + obj[i].taille[0], obj[i].y)
         y1, y2 = (obj[i].x, obj[i].y + obj[i].taille[1]), (obj[i].x + obj[i].taille[0], obj[i].y + obj[i].taille[1])
@@ -239,7 +303,7 @@ def coll_pote(obj):
 
 
 def change(liste, ind):
-    """Change les coordonnées de la cible à changer."""
+    """Change les coordonnees de la cible a changer."""
     if liste[ind].x >= 1000:
         liste[ind].x -= 10
     elif liste[ind].x <= 0:
@@ -250,13 +314,35 @@ def change(liste, ind):
         liste[ind].y -= 10
 
     coll_pote(liste_cibles)
-
     coll_pote(liste_pingouins)
-
     coll_pote(liste_murs)
 
 
+
 # pg.Rect.colliderect(Rect) pour collisions entre 2 rectangles pas penchés
+
+def compteur_temps():
+    """
+    Renvoie un tuple avec en position 0 les min a afficher et en position 1 les secondes
+    """
+    global start
+    t = int(time.time() - start)
+    sec = str(t%60) + ' sec'
+    if t%60 < 10 :
+        sec = '0' + sec
+    min = ''
+    if t >= 60 :
+        if t < 600 : 
+            min = '0' + str(t//60) + ' min'
+        else :
+            min = str(t//60) + ' min'
+    return (min, sec)
+
+
+
+# pingcibles = random.randint(1, 10)
+pingcibles = 1
+
 
 """def collautres(obj , liste):
     if len(liste)<=1:
@@ -284,7 +370,8 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 6
+pingcibles = 3
+
 
 # Fait les listes
 
@@ -324,13 +411,16 @@ def creer_liste_pingouin(n):
             li.append(m)
     return li
 
-
 liste_murs = creer_liste_murs(5)
 liste_cibles = creer_liste_cibles(pingcibles)
 liste_pingouins = creer_liste_pingouin(pingcibles)
 
 
 cibles_touchees = 0
+
+start = time.time()
+font = pg.font.Font(None, 24)
+
 runningf = True
 while runningf:
     # PARTIE EVENTS
@@ -338,8 +428,10 @@ while runningf:
         if event.type == pg.QUIT:
             runningf = False
         if event.type == pg.KEYDOWN:
+
             liste_pingouins[0].tourne(event.key)
             mouvements += 1
+
             for pingind in range(len(liste_pingouins)):
                 if not liste_pingouins[pingind].cache:
                     liste_pingouins[pingind].move(event.key)
@@ -359,10 +451,11 @@ while runningf:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
     screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
     if cibles_touchees == pingcibles:
-        t = "Vous avez réussi en %s mouvements"%str(mouvements) 
         text_fin = font.render("Bravo !!", 10, (0, 100, 255))
         screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
-        screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
+        #screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
+    screen.blit(font.render(compteur_temps()[1], 1, (0, 100, 255)), (950, 0))
+    screen.blit(font.render(compteur_temps()[0], 1, (0, 100, 255)), (895, 0))
     pg.display.flip()
 pg.quit()
 
