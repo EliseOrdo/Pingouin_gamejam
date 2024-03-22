@@ -84,7 +84,66 @@ class Pingouin:
                 case pg.K_LEFT:
                     self.x -= vit
                 
+            
+            #Rotation
+            if self.orientation == 'haut':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+            
+            elif self.orientation == 'droite':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
 
+            elif self.orientation == 'gauche':
+                if touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_DOWN:
+                    self.orientation = 'bas'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+
+            if self.orientation == 'bas':
+                if touche == pg.K_RIGHT:
+                    self.orientation = 'droite'
+                    pin = pg.transform.rotate(pin, 90)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_UP:
+                    self.orientation = 'haut'
+                    pin = pg.transform.rotate(pin, 180)
+                    screen.blit(pin, (self.x, self.y))
+                elif touche == pg.K_LEFT:
+                    self.orientation = 'gauche'
+                    pin = pg.transform.rotate(pin, -90)
+                    screen.blit(pin, (self.x, self.y))
+
+
+            self.prect = pg.Rect((self.x, self.y), (20, 40))
             
         while self.touche_qui_ou() is True:
             match touche :
@@ -285,6 +344,11 @@ def compteur_temps():
     return (min, sec)
 
 
+
+# pingcibles = random.randint(1, 10)
+pingcibles = 1
+
+
 """def collautres(obj , liste):
     if len(liste)<=1:
         return False
@@ -379,7 +443,7 @@ while runningf:
     for pingind in range(len(liste_pingouins)):
         if not liste_pingouins[pingind].cache:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
-    #screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
+    screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
     if cibles_touchees == pingcibles:
         text_fin = font.render("Bravo !!", 10, (0, 100, 255))
         screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
