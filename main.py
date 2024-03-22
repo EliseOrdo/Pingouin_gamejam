@@ -316,6 +316,10 @@ cache = pg.image.load("dessins/snow.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
 ice = pg.image.load("dessins/iceberg.png").convert_alpha()
 wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 # Fait les listes
 
@@ -325,6 +329,8 @@ liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in 
 coll_pote(liste_pingouins)
 coll_pote(liste_murs)
 coll_pote(liste_cibles)
+
+cibles_touchees = 0
 
 runningf = True
 while runningf:
