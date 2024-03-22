@@ -32,14 +32,18 @@ def Monitor(PP_ADDRESS):
      p3=0
      
      """ initialisation du tableau de données"""
+     depart = time.time()
+     m = 1 # masse des pingouins ( en faire des plus lourd ?)
+     g = 1 # constante accélération de gravite pour simuler le poids 
      pos_p = [0,0] #self.x, self.y
      vit_p = [0,0]
-     acc_p = [0,0] 
+     ang_p = [0,0] 
      coo_gyr = np.array([[0],[0],[0]]) #x,y,z
      while True: # une fois dans le main, à enlever et à mettre dans la boucle principale
          #PP_ADRESS/get?&
          url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
          data = requests.get(url=url).json()
+         duree = time.time() - depart
          for i, channel in enumerate(PP_CHANNELS):
              value = data["buffer"][channel]["buffer"][0]
              """
@@ -59,15 +63,18 @@ def Monitor(PP_ADDRESS):
              print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              coo_gyr[i][0] = value
              print(coo_gyr[i][0])
-             acc_p[0] = coo_gyr[0][0]  #je projète l'accélération angulaire du gyroscope sur les axes x et y pour avoir la variation de vitesse des pingouins
-             acc_p[1] = coo_gyr[1][0] 
-             print("pengouin : \nax : {}\nay : {}\n".format(acc_p[0],acc_p[1]))
-             vit_p[0] = coo_gyr[0][0]+vit_p[0] 
+             ang_p[0] = coo_gyr[0][0] * duree  # acc_angle* duree = angle : teta
+             ang_p[1] = coo_gyr[1][0] * duree
+             print("pengouin : \nax : {}\nay : {}\n".format(ang_p[0],ang_p[1]))
+             vit_p[0] = -ang_p[0] + vit_p[0] # -angle car les axes y de phyphox et de l'écran sont inversés
              vit_p[1] = coo_gyr[1][0]+vit_p[1] 
              print("pengouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
              pos_p[0] = coo_gyr[0][0]*vit_p[0] + pos_p[0] 
-             pos_p[1] = coo_gyr[1][0]*vit_p[1] + pos_p[1]   #x et y finaux du pingouin,  trop sensible ?
+             pos_p[1] = coo_gyr[1][0]*vit_p[1] + pos_p[1]   
              print("pengouin : \npx : {}\npy : {}\n".format(pos_p[0],pos_p[1]))
+             ax1.plot(duree,vit_p[0],'bo')
+             plt.pause(0.005)
+             
 
             #time.sleep(0.05)
 Monitor(PP_ADDRESS)
