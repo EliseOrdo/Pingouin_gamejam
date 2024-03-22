@@ -58,32 +58,21 @@ class Pingouin:
         bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
         haut = x1[0] < 0
-        bas = x3[0] > fen_h
+        bas = x3[1] > fen_h
         gauche = x1[1] < 0
         droite = x2[0] > fen_l
         return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
     def touche_qui_ou(self):
-        """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
-        touche = False
-        haut = 0 > self.y
-        gauche = 0 > self.x
-        droite = self.x + self.taille[0] > 1000
-        bas = self.y + self.taille[1] > 800
-        if haut or gauche or droite or bas:
-            touche = True
+        """Renvoie le mur touché par le pingouin"""
         for mur in liste_murs:
             if self.touche_truc(mur):
-                touche = True
-        for pin in liste_pingouins:
-            if self.touche_truc(pin):
-                touche = True
-        return touche
+                return True
+        return False
 
     def move(self, touche):
         """Fait bouger le pingouin."""
         global mouvements
-        global pin
         vit = 22
         if self.touche_qui_ou() is False:
             #Mouvement
@@ -98,8 +87,6 @@ class Pingouin:
                 case pg.K_LEFT:
                     self.x -= vit
                 
-
-            
         while self.touche_qui_ou() is True:
             match touche :
                 case pg.K_UP:
@@ -112,10 +99,9 @@ class Pingouin:
                     self.x += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
+
     def tourne(self, touche):
-        
         global pin
-        
         #Rotation
         match self.orientation:
             case 'haut':
@@ -386,10 +372,7 @@ while runningf:
         if event.type == pg.QUIT:
             runningf = False
         if event.type == pg.KEYDOWN:
-
             liste_pingouins[0].tourne(event.key)
-            mouvements += 1
-
             for pingind in range(len(liste_pingouins)):
                 if not liste_pingouins[pingind].cache:
                     liste_pingouins[pingind].move(event.key)
