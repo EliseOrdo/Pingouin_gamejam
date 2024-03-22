@@ -2,7 +2,7 @@
 import pygame as pg
 import random
 import sys
-import Phyphox2python as p2p
+#import Phyphox2python as p2p
 import time
 import numpy
 
@@ -55,8 +55,9 @@ class Pingouin:
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
         return haut_gauche or bas_gauche or haut_droit or bas_droit
 
-    def touche_qui_ou(self):
+    def touche_qui_ou(self,):
         """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
+        touche = False
         for mur in liste_murs:
             if self.touche_truc(mur):
                 touche = True
@@ -310,13 +311,17 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 17
+pingcibles = 5
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 cache = pg.image.load("dessins/snow.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
 ice = pg.image.load("dessins/iceberg.png").convert_alpha()
 wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 # Fait les listes
 
@@ -326,6 +331,9 @@ liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in 
 coll_pote(liste_pingouins)
 coll_pote(liste_murs)
 coll_pote(liste_cibles)
+
+cibles_touchees = 0
+start = time.time()
 
 runningf = True
 while runningf:
