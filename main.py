@@ -220,8 +220,8 @@ def coll_pote(obj):
 
         for m in range(len(liste_murs)):
             x3, x4 = (liste_murs[m].x, liste_murs[m].y), (liste_murs[m].x + liste_murs[m].taille[0], liste_murs[m].y)
-            y3, y4 = (liste_murs[m].x, liste_murs[m].y + liste_murs[m].taille[1]),
-            (liste_murs[m].x + liste_murs[m].taille[0], liste_murs[m].y + liste_murs[m].taille[1])
+            y3, y4 = (liste_murs[m].x, liste_murs[m].y + liste_murs[m].taille[1]), (liste_murs[m].x + liste_murs[m].taille[0],
+                                                                                    liste_murs[m].y + liste_murs[m].taille[1])
             haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
@@ -230,10 +230,10 @@ def coll_pote(obj):
                 change(liste_murs, m)
 
         for p in range(len(liste_pingouins)):
-            x3, x4 = (liste_pingouins[p].x, liste_pingouins[p].y), 
-            (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y)
-            y3, y4 = (liste_pingouins[p].x, liste_pingouins[p].y + liste_pingouins[p].taille[1]), 
-            (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y + liste_pingouins[p].taille[1])
+            x3, x4 = ((liste_pingouins[p].x, liste_pingouins[p].y),
+                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y))
+            y3, y4 = ((liste_pingouins[p].x, liste_pingouins[p].y + liste_pingouins[p].taille[1]),
+                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y + liste_pingouins[p].taille[1]))
             haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
