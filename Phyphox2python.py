@@ -51,9 +51,9 @@ def Monitor(PP_ADDRESS):
                  ax3.plot(p3,value,'bo')
                  plt.pause(0.005)
                  p3+=1
-             print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
+              ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              coo_gyr[i][0] = value
-             print(coo_gyr[i][0])
-             print()
+             (coo_gyr[i][0])
+             ()
             #time.sleep(0.05)
 Monitor(PP_ADDRESS)

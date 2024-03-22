@@ -10,18 +10,12 @@ sys.setrecursionlimit(100000000)
 
 pg.init()
 fen_l = 1000
-fen_h = 800
+fen_h = 700
 screen = pg.display.set_mode((fen_l, fen_h))
 
 background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
-
-
-pin = pg.image.load("dessins/ping.png").convert_alpha()
-ci = pg.image.load("dessins/water.png").convert_alpha()
-ice = pg.image.load("dessins/iceberg.png").convert_alpha()
-wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
@@ -53,7 +47,11 @@ class Pingouin:
         haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return haut_gauche or bas_gauche or haut_droit or bas_droit
+        haut = x1[0] < 0
+        bas = x3[0] > fen_h
+        gauche = x1[1] < 0
+        droite = x2[0] > fen_l
+        return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
     def touche_qui_ou(self,):
         """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
@@ -118,7 +116,6 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, 90)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
             
             case 'droite':
                 match touche:
@@ -134,7 +131,7 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, 180)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
             case 'gauche':
                 match touche:
@@ -150,7 +147,7 @@ class Pingouin:
                         self.orientation = 'droite'
                         pin = pg.transform.rotate(pin, 180)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
             case 'bas':
                 match touche :
@@ -166,7 +163,7 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, -90)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
 class Mur:
     """Un mur."""
@@ -201,8 +198,8 @@ class Cible:
             screen.blit(cache, (pingouin.x, pingouin.y))
             screen.blit(ci, (self.x, self.y))
             pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
-            print(pingouin.x, pingouin.y)
-            print(self.x, self.y)
+            (pingouin.x, pingouin.y)
+            (self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
 
 
@@ -221,7 +218,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_cibles, cib)
 
         for m in range(len(liste_murs)):
@@ -232,7 +233,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_murs, m)
 
         for p in range(len(liste_pingouins)):
@@ -244,7 +249,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_pingouins, p)
 
 
@@ -285,33 +294,9 @@ def compteur_temps():
     return (min, sec)
 
 
-"""def collautres(obj , liste):
-    if len(liste)<=1:
-        return False
-    for elt in liste[1::]:
-        if pg.Rect(obj.x,obj.y,obj.taille).colliderect(elt):
-            return True
-    return False"""
-    
-def coll(obj, liste):
-    x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
-    y1, y2 = (obj.x, obj.y + obj.taille[1]), (obj.x + obj.taille[0], obj.y + obj.taille[1])
-    for cib in range(len(liste)):
-        x3, x4 = (liste[cib].x, liste[cib].y), (
-            liste[cib].x + liste[cib].taille[0], liste[cib].y)
-        y3, y4 = (liste[cib].x, liste[cib].y + liste[cib].taille[1]), (
-            liste[cib].x + liste[cib].taille[0], liste[cib].y + liste[cib].taille[1])
-        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        if hg or basg or hd or bd:
-            #change(liste_cibles, cib)
-            return True
-
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 5
+pingcibles = 1
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 cache = pg.image.load("dessins/snow.png").convert_alpha()
@@ -334,6 +319,7 @@ coll_pote(liste_cibles)
 
 cibles_touchees = 0
 start = time.time()
+tmps = compteur_temps()
 
 runningf = True
 while runningf:
@@ -379,12 +365,15 @@ while runningf:
     for pingind in range(len(liste_pingouins)):
         if not liste_pingouins[pingind].cache:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
-    #screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
     if cibles_touchees == pingcibles:
         text_fin = font.render("Bravo !!", 10, (0, 100, 255))
         screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
         #screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
-    screen.blit(font.render(compteur_temps()[1], 1, (0, 100, 255)), (950, 0))
-    screen.blit(font.render(compteur_temps()[0], 1, (0, 100, 255)), (895, 0))
+        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
+        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
+    else:
+        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
+        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
+        tmps = compteur_temps()
     pg.display.flip()
 pg.quit()
