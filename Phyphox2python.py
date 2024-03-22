@@ -5,13 +5,13 @@ Control the experience monitored with the appropriate PP_CHANNELS names'''
 
 
 import matplotlib.pyplot as plt
-
+import numpy as np
 import requests
 import time
 
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.14.41" 
+PP_ADDRESS = "http://192.168.201.140:8080" 
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -31,7 +31,9 @@ def Monitor(PP_ADDRESS):
      p2=0
      p3=0
      
-     while True:
+     """ initialisation du tableau de données"""
+     coo_gyr = np.array([[0],[0],[0]]) #x,y,z
+     while True: # une fois dans le main, à enlever et à mettre dans la boucle principale
          #PP_ADRESS/get?&
          url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
          data = requests.get(url=url).json()
@@ -49,7 +51,9 @@ def Monitor(PP_ADDRESS):
                  ax3.plot(p3,value,'bo')
                  plt.pause(0.005)
                  p3+=1
-             print ('Channel is : {}, value is {}: '.format(channel,value) )
+             print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
+             coo_gyr[i][0] = value
+             print(coo_gyr[i][0])
              print()
             #time.sleep(0.05)
 Monitor(PP_ADDRESS)
