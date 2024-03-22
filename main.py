@@ -2,6 +2,7 @@
 import pygame as pg
 import random
 import sys
+#import Phyphox2python as p2p
 import time
 
 sys.setrecursionlimit(100000000)
@@ -369,8 +370,8 @@ def compteur_temps():
 
 
 
-# pingcibles = random.randint(1, 10) 
-pingcibles = 1
+# pingcibles = random.randint(1, 10)
+pingcibles = 5
 
 pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
