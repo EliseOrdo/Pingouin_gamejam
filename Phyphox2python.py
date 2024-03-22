@@ -11,7 +11,7 @@ import time
 
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.79.40" 
+PP_ADDRESS = "http://192.168.201.140:8080" 
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
