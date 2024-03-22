@@ -32,6 +32,9 @@ def Monitor(PP_ADDRESS):
      p3=0
      
      """ initialisation du tableau de données"""
+     pos_p = [0,0] #self.x, self.y
+     vit_p = [0,0]
+     acc_p = [0,0] 
      coo_gyr = np.array([[0],[0],[0]]) #x,y,z
      while True: # une fois dans le main, à enlever et à mettre dans la boucle principale
          #PP_ADRESS/get?&
@@ -56,6 +59,15 @@ def Monitor(PP_ADDRESS):
              print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              coo_gyr[i][0] = value
              print(coo_gyr[i][0])
-             print()
+             acc_p[0] = coo_gyr[0][0]  #je projète l'accélération angulaire du gyroscope sur les axes x et y pour avoir la variation de vitesse des pingouins
+             acc_p[1] = coo_gyr[1][0] 
+             print("pengouin : \nax : {}\nay : {}\n".format(acc_p[0],acc_p[1]))
+             vit_p[0] = coo_gyr[0][0]+vit_p[0] 
+             vit_p[1] = coo_gyr[1][0]+vit_p[1] 
+             print("pengouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
+             pos_p[0] = coo_gyr[0][0]*vit_p[0] + pos_p[0] 
+             pos_p[1] = coo_gyr[1][0]*vit_p[1] + pos_p[1]   #x et y finaux du pingouin,  trop sensible ?
+             print("pengouin : \npx : {}\npy : {}\n".format(pos_p[0],pos_p[1]))
+
             #time.sleep(0.05)
 Monitor(PP_ADDRESS)
