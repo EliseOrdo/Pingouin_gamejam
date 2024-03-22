@@ -21,6 +21,11 @@ pin = pg.image.load("dessins/ping.png").convert_alpha()
 ci = pg.image.load("dessins/water.png").convert_alpha()
 ice = pg.image.load("dessins/iceberg.png").convert_alpha()
 wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
@@ -290,16 +295,6 @@ def compteur_temps():
     return (min, sec)
 
 
-
-
-
-"""def collautres(obj , liste):
-    if len(liste)<=1:
-        return False
-    for elt in liste[1::]:
-        if pg.Rect(obj.x,obj.y,obj.taille).colliderect(elt):
-            return True
-    return False"""
     
 def coll(obj, liste):
     x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
@@ -412,7 +407,6 @@ while runningf:
     for pingind in range(len(liste_pingouins)):
         if not liste_pingouins[pingind].cache:
             screen.blit(pin, (liste_pingouins[pingind].x, liste_pingouins[pingind].y))
-    screen.blit(font.render(str(mouvements), 1, (0, 100, 255)), (960, 0))
     if cibles_touchees == pingcibles:
         text_fin = font.render("Bravo !!", 10, (0, 100, 255))
         screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
