@@ -5,7 +5,7 @@ import sys
 import time
 import numpy
 
-#sys.setrecursionlimit(100000000)
+sys.setrecursionlimit(100000000)
 
 pg.init()
 fen_l = 1000
