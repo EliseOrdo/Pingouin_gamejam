@@ -4,7 +4,6 @@ import random
 import sys
 #import Phyphox2python as p2p
 import time
-import numpy
 
 sys.setrecursionlimit(100000000)
 
@@ -16,6 +15,17 @@ screen = pg.display.set_mode((fen_l, fen_h))
 background = pg.Surface(screen.get_size())
 background = background.convert()
 background.fill((186, 235, 239))
+
+
+pin = pg.image.load("dessins/ping.png").convert_alpha()
+ci = pg.image.load("dessins/water.png").convert_alpha()
+ice = pg.image.load("dessins/iceberg.png").convert_alpha()
+wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 mouvements = 0
 font = pg.font.Font(None, 24)
@@ -53,9 +63,15 @@ class Pingouin:
         droite = x2[0] > fen_l
         return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
-    def touche_qui_ou(self,):
-        """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
+    def touche_qui_ou(self):
+        """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
         touche = False
+        haut = 0 > self.y
+        gauche = 0 > self.x
+        droite = self.x + self.taille[0] > 1000
+        bas = self.y + self.taille[1] > 800
+        if haut or gauche or droite or bas:
+            touche = True
         for mur in liste_murs:
             if self.touche_truc(mur):
                 touche = True
@@ -294,28 +310,70 @@ def compteur_temps():
     return (min, sec)
 
 
+    
+def coll(obj, liste):
+    x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
+    y1, y2 = (obj.x, obj.y + obj.taille[1]), (obj.x + obj.taille[0], obj.y + obj.taille[1])
+    for cib in range(len(liste)):
+        x3, x4 = (liste[cib].x, liste[cib].y), (
+            liste[cib].x + liste[cib].taille[0], liste[cib].y)
+        y3, y4 = (liste[cib].x, liste[cib].y + liste[cib].taille[1]), (
+            liste[cib].x + liste[cib].taille[0], liste[cib].y + liste[cib].taille[1])
+        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        if hg or basg or hd or bd:
+            #change(liste_cibles, cib)
+            return True
+
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 1
+pingcibles = 3
 
-pin = pg.image.load("dessins/ping.png").convert_alpha()
-cache = pg.image.load("dessins/snow.png").convert_alpha()
-ci = pg.image.load("dessins/water.png").convert_alpha()
-ice = pg.image.load("dessins/iceberg.png").convert_alpha()
-wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
-ci1 = pg.image.load("dessins/t1.png").convert_alpha()
-ci2 = pg.image.load("dessins/t2.png").convert_alpha()
-ci3 = pg.image.load("dessins/t3.png").convert_alpha()
-ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 # Fait les listes
 
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
-liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
-coll_pote(liste_pingouins)
-coll_pote(liste_murs)
-coll_pote(liste_cibles)
+def creer_liste_murs(n):
+    li = []
+    while len(li) <= n:
+        ajout = True
+        m = Mur(random.randint(0, fen_l-120), random.randint(0, fen_h-129), (120, 129))
+        for j in range(len(li)):
+            if coll(m, li):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def creer_liste_cibles(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Cible(random.randint(0, fen_l-40), random.randint(0, fen_h-40))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def creer_liste_pingouin(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Pingouin(random.randint(0, fen_l-18), random.randint(0, fen_h-17))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs) or coll(m, liste_cibles):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+liste_murs = creer_liste_murs(5)
+liste_cibles = creer_liste_cibles(pingcibles)
+liste_pingouins = creer_liste_pingouin(pingcibles)
+
 
 cibles_touchees = 0
 start = time.time()
