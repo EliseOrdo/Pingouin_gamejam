@@ -39,6 +39,7 @@ def Monitor(PP_ADDRESS):
          data = requests.get(url=url).json()
          for i, channel in enumerate(PP_CHANNELS):
              value = data["buffer"][channel]["buffer"][0]
+             """
              if i ==0 : 
                  ax1.plot(p1,value,'ro')
                  plt.pause(0.005)
@@ -51,6 +52,7 @@ def Monitor(PP_ADDRESS):
                  ax3.plot(p3,value,'bo')
                  plt.pause(0.005)
                  p3+=1
+                 """
              print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              coo_gyr[i][0] = value
              print(coo_gyr[i][0])
