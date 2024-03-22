@@ -9,7 +9,7 @@ sys.setrecursionlimit(100000000)
 
 pg.init()
 fen_l = 1000
-fen_h = 800
+fen_h = 700
 screen = pg.display.set_mode((fen_l, fen_h))
 
 background = pg.Surface(screen.get_size())
@@ -57,7 +57,11 @@ class Pingouin:
         haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        return haut_gauche or bas_gauche or haut_droit or bas_droit
+        haut = x1[0] < 0
+        bas = x3[0] > fen_h
+        gauche = x1[1] < 0
+        droite = x2[0] > fen_l
+        return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin, et sur quelle moitié de côté."""
@@ -128,7 +132,6 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, 90)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
             
             case 'droite':
                 match touche:
@@ -144,7 +147,7 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, 180)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
             case 'gauche':
                 match touche:
@@ -160,7 +163,7 @@ class Pingouin:
                         self.orientation = 'droite'
                         pin = pg.transform.rotate(pin, 180)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
             case 'bas':
                 match touche :
@@ -176,7 +179,7 @@ class Pingouin:
                         self.orientation = 'gauche'
                         pin = pg.transform.rotate(pin, -90)
                         screen.blit(pin, (self.x, self.y))
-                print(self.orientation)
+                (self.orientation)
 
 class Mur:
     """Un mur."""
@@ -211,8 +214,8 @@ class Cible:
             screen.blit(cache, (pingouin.x, pingouin.y))
             screen.blit(ci, (self.x, self.y))
             pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
-            print(pingouin.x, pingouin.y)
-            print(self.x, self.y)
+            (pingouin.x, pingouin.y)
+            (self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
 
 
@@ -231,7 +234,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_cibles, cib)
 
         for m in range(len(liste_murs)):
@@ -242,7 +249,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_murs, m)
 
         for p in range(len(liste_pingouins)):
@@ -254,7 +265,11 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+            haut = x1[0] < 0
+            bas = x3[0] > fen_h
+            gauche = x1[1] < 0
+            droite = x2[0] > fen_l
+            if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_pingouins, p)
 
 
@@ -362,6 +377,7 @@ liste_pingouins = creer_liste_pingouin(pingcibles)
 
 cibles_touchees = 0
 start = time.time()
+tmps = compteur_temps()
 
 runningf = True
 while runningf:
@@ -411,7 +427,11 @@ while runningf:
         text_fin = font.render("Bravo !!", 10, (0, 100, 255))
         screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
         #screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
-    screen.blit(font.render(compteur_temps()[1], 1, (0, 100, 255)), (950, 0))
-    screen.blit(font.render(compteur_temps()[0], 1, (0, 100, 255)), (895, 0))
+        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
+        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
+    else:
+        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
+        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
+        tmps = compteur_temps()
     pg.display.flip()
 pg.quit()
