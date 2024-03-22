@@ -11,15 +11,7 @@ import time
 
 
 # A changer à chaques fois
-<<<<<<< HEAD
-<<<<<<< HEAD
 PP_ADDRESS = "http://192.168.201.140:8080" 
-=======
-PP_ADDRESS = "http://192.168.79.40" 
->>>>>>> 7795784 (Update Phyphox2python.py)
-=======
-PP_ADDRESS = "http://192.168.201.140:8080" 
->>>>>>> 10d1932 (phyphox to python)
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 

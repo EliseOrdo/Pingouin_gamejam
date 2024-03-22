@@ -211,6 +211,7 @@ class Cible:
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
 
 
+
 def coll_pote(obj):
     """Verifie que la cible est dans une (autre) cible."""
     for i in range(len(obj)):
@@ -318,26 +319,51 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 5
+pingcibles = 3
 
-pin = pg.image.load("dessins/ping.png").convert_alpha()
-cache = pg.image.load("dessins/snow.png").convert_alpha()
-ci = pg.image.load("dessins/water.png").convert_alpha()
-ice = pg.image.load("dessins/iceberg.png").convert_alpha()
-wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
-ci1 = pg.image.load("dessins/t1.png").convert_alpha()
-ci2 = pg.image.load("dessins/t2.png").convert_alpha()
-ci3 = pg.image.load("dessins/t3.png").convert_alpha()
-ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
-# Fait les listes .
+# Fait les listes
 
-liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
-liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
-liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
-coll_pote(liste_pingouins)
-coll_pote(liste_murs)
-coll_pote(liste_cibles)
+def creer_liste_murs(n):
+    li = []
+    while len(li) <= n:
+        ajout = True
+        m = Mur(random.randint(0, fen_l-120), random.randint(0, fen_h-129), (120, 129))
+        for j in range(len(li)):
+            if coll(m, li):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def creer_liste_cibles(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Cible(random.randint(0, fen_l-40), random.randint(0, fen_h-40))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+def creer_liste_pingouin(n):
+    li = []
+    while len(li) < n:
+        ajout = True
+        m = Pingouin(random.randint(0, fen_l-18), random.randint(0, fen_h-17))
+        for j in range(len(li)):
+            if coll(m, li) or coll(m, liste_murs) or coll(m, liste_cibles):
+                ajout = False
+        if ajout:
+            li.append(m)
+    return li
+
+liste_murs = creer_liste_murs(5)
+liste_cibles = creer_liste_cibles(pingcibles)
+liste_pingouins = creer_liste_pingouin(pingcibles)
+
 
 cibles_touchees = 0
 start = time.time()
