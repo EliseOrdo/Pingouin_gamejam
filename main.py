@@ -2,6 +2,7 @@
 import pygame as pg
 import random
 import sys
+#import Phyphox2python as p2p
 import time
 import numpy
 
@@ -43,38 +44,31 @@ class Pingouin:
 
 
     def touche_truc(self, truc):
-        """Verifie si le pinguoin touche le truc (le truc doit avoir x et y en parametre)."""
+        """Verifie si le pingouin touche le truc (le truc doit avoir x et y en parametre)."""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
         y3, y4 = (truc.x, truc.y + truc.taille[1]), (truc.x + truc.taille[0], truc.y + truc.taille[1])
-        hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-        hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-        basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-        bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        h = 0 > x1[1]
-        ga = 0 > x1[0]
-        d = y2[0] > 1000
-        b = y1[1] > 800
-        return hg or basg or hd or bd or h or ga or d or b
+        haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+        haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+        bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+        bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+        return haut_gauche or bas_gauche or haut_droit or bas_droit
 
-    def touche_qui_ou(self):
+    def touche_qui_ou(self,):
         """Renvoie le mur touche par le pingouin, et sur quelle moitie de cote."""
+        touche = False
         for mur in liste_murs:
             if self.touche_truc(mur):
-                return True
-        return False
-
-    @staticmethod
-    def perdu():
-        """Le texte quand c'est perdu."""
-        fon = pg.font.Font(None, 50)
-        screen.blit(fon.render("PERDUUUU", 1, (0, 100, 255)), (425, 350))
+                touche = True
+        for pin in liste_pingouins:
+            if self.touche_truc(pin):
+                touche = True
+        return touche
 
     def move(self, touche):
         """Fait bouger le pingouin."""
         global mouvements
-        global g
         global pin
         vit = 22
         if self.touche_qui_ou() is False:
@@ -192,6 +186,7 @@ class Cible:
         self.y = y
         self.couleur = (140, 220, 250)
         self.cache = False
+        self.anim = False
 
     def touche_cible(self, pingouin):
         """Renvoie vrai si le pingouin touche la cible."""
@@ -200,6 +195,15 @@ class Cible:
             self.cache = True
             cibles_touchees += 1
             pingouin.cache = True
+            self.anim = True
+            # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
+            # Met le pingouin au centre de la cible
+            screen.blit(cache, (pingouin.x, pingouin.y))
+            screen.blit(ci, (self.x, self.y))
+            pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
+            print(pingouin.x, pingouin.y)
+            print(self.x, self.y)
+            pg.display.update(pg.Rect(self.x, self.y, 40, 40))
 
 
 
@@ -213,34 +217,35 @@ def coll_pote(obj):
                 liste_cibles[cib].x + liste_cibles[cib].taille[0], liste_cibles[cib].y)
             y3, y4 = (liste_cibles[cib].x, liste_cibles[cib].y + liste_cibles[cib].taille[1]), (
                 liste_cibles[cib].x + liste_cibles[cib].taille[0], liste_cibles[cib].y + liste_cibles[cib].taille[1])
-            hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-            hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-            basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-            bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if hg or basg or hd or bd:
+            haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+            haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+            bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+            bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+            if haut_gauche or bas_gauche or haut_droit or bas_droit:
                 change(liste_cibles, cib)
-        for c in range(len(liste_murs)):
-            x3, x4 = (liste_murs[c].x, liste_murs[c].y), (liste_murs[c].x + liste_murs[c].taille[0], liste_murs[c].y)
-            y3, y4 = (liste_murs[c].x, liste_murs[c].y + liste_murs[c].taille[1]), (
-                liste_murs[c].x + liste_murs[c].taille[0], liste_murs[c].y + liste_murs[c].taille[1])
-            hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-            hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-            basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-            bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if hg or basg or hd or bd:
-                change(liste_murs, c)
-        for truc in range(len(liste_pingouins)):
-            x3, x4 = (liste_pingouins[truc].x, liste_pingouins[truc].y), (
-                liste_pingouins[truc].x + liste_pingouins[truc].taille[0], liste_pingouins[truc].y)
-            y3, y4 = (liste_pingouins[truc].x, liste_pingouins[truc].y + liste_pingouins[truc].taille[1]), (
-                liste_pingouins[truc].x + liste_pingouins[truc].taille[0],
-                liste_pingouins[truc].y + liste_pingouins[truc].taille[1])
-            hg = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
-            hd = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
-            basg = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
-            bd = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            if hg or basg or hd or bd:
-                change(liste_pingouins, truc)
+
+        for m in range(len(liste_murs)):
+            x3, x4 = (liste_murs[m].x, liste_murs[m].y), (liste_murs[m].x + liste_murs[m].taille[0], liste_murs[m].y)
+            y3, y4 = (liste_murs[m].x, liste_murs[m].y + liste_murs[m].taille[1]), (liste_murs[m].x + liste_murs[m].taille[0],
+                                                                                    liste_murs[m].y + liste_murs[m].taille[1])
+            haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+            haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+            bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+            bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+                change(liste_murs, m)
+
+        for p in range(len(liste_pingouins)):
+            x3, x4 = ((liste_pingouins[p].x, liste_pingouins[p].y),
+                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y))
+            y3, y4 = ((liste_pingouins[p].x, liste_pingouins[p].y + liste_pingouins[p].taille[1]),
+                      (liste_pingouins[p].x + liste_pingouins[p].taille[0], liste_pingouins[p].y + liste_pingouins[p].taille[1]))
+            haut_gauche = x3[0] < x1[0] < x4[0] and x3[1] < x1[1] < y3[1]
+            haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
+            bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
+            bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
+            if haut_gauche or bas_gauche or haut_droit or bas_droit:
+                change(liste_pingouins, p)
 
 
 def change(liste, ind):
@@ -306,56 +311,29 @@ def coll(obj, liste):
 
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 17
+pingcibles = 5
 
+pin = pg.image.load("dessins/ping.png").convert_alpha()
+cache = pg.image.load("dessins/snow.png").convert_alpha()
+ci = pg.image.load("dessins/water.png").convert_alpha()
+ice = pg.image.load("dessins/iceberg.png").convert_alpha()
+wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()
+ci1 = pg.image.load("dessins/t1.png").convert_alpha()
+ci2 = pg.image.load("dessins/t2.png").convert_alpha()
+ci3 = pg.image.load("dessins/t3.png").convert_alpha()
+ci4 = pg.image.load("dessins/t4.png").convert_alpha()
 
 # Fait les listes
 
-def creer_liste_murs(n):
-    li = []
-    while len(li) <= n:
-        ajout = True
-        m = Mur(random.randint(0, fen_l-120), random.randint(0, fen_h-129), (120, 129))
-        for j in range(len(li)):
-            if coll(m, li):
-                ajout = False
-        if ajout:
-            li.append(m)
-    return li
-
-def creer_liste_cibles(n):
-    li = []
-    while len(li) < n:
-        ajout = True
-        m = Cible(random.randint(0, fen_l-40), random.randint(0, fen_h-40))
-        for j in range(len(li)):
-            if coll(m, li) or coll(m, liste_murs):
-                ajout = False
-        if ajout:
-            li.append(m)
-    return li
-
-def creer_liste_pingouin(n):
-    li = []
-    while len(li) < n:
-        ajout = True
-        m = Pingouin(random.randint(0, fen_l-18), random.randint(0, fen_h-17))
-        for j in range(len(li)):
-            if coll(m, li) or coll(m, liste_murs) or coll(m, liste_cibles):
-                ajout = False
-        if ajout:
-            li.append(m)
-    return li
-
-liste_murs = creer_liste_murs(5)
-liste_cibles = creer_liste_cibles(pingcibles)
-liste_pingouins = creer_liste_pingouin(pingcibles)
-
+liste_murs = [Mur(random.randint(0, 800), random.randint(0, 1000), (119, 129)) for j in range(random.randint(1, 2))]
+liste_pingouins = [Pingouin(random.randint(0, 800), random.randint(0, 1000)) for k in range(pingcibles)]
+liste_cibles = [Cible(random.randint(0, 800), random.randint(0, 1000)) for i in range(pingcibles)]
+coll_pote(liste_pingouins)
+coll_pote(liste_murs)
+coll_pote(liste_cibles)
 
 cibles_touchees = 0
-
 start = time.time()
-font = pg.font.Font(None, 24)
 
 runningf = True
 while runningf:
@@ -380,6 +358,22 @@ while runningf:
     for ciblind in liste_cibles:
         if not ciblind.cache:
             screen.blit(ci, (ciblind.x, ciblind.y))
+        if ciblind.anim:
+            screen.blit(ci1, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.2)
+            screen.blit(ci2, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.2)
+            screen.blit(ci3, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.2)
+            screen.blit(ci4, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            time.sleep(0.2)
+            screen.blit(cache, (ciblind.x, ciblind.y))
+            pg.display.update((ciblind.x, ciblind.y, 40, 40))
+            ciblind.anim = False
     for murind in range(len(liste_murs)):
         screen.blit(ice, (liste_murs[murind].x, liste_murs[murind].y))
     for pingind in range(len(liste_pingouins)):
@@ -394,5 +388,3 @@ while runningf:
     screen.blit(font.render(compteur_temps()[0], 1, (0, 100, 255)), (895, 0))
     pg.display.flip()
 pg.quit()
-
-# rotation : il tourne l'image, toujours la même, même si il la copie colle
