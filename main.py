@@ -48,7 +48,9 @@ class Pingouin:
 
 
     def touche_truc(self, truc):
-        """Verifie si le pingouin touche le truc (le truc doit avoir x et y en parametre)."""
+        """Verifie si le pingouin touche le truc (le truc doit avoir x et y en parametre).
+            x1 : haut gauche de self, x2 : haut droit de self y1 bas gauche de self et y2 bas droit de self
+            x3, x4, y3, y4 : meme chose pour truc"""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
         y1, y2 = (self.x, self.y + self.taille[1]), (self.x + self.taille[0], self.y + self.taille[1])
         x3, x4 = (truc.x, truc.y), (truc.x + truc.taille[0], truc.y)
@@ -57,9 +59,9 @@ class Pingouin:
         haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
         bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-        haut = x1[0] < 0
-        bas = x3[1] > fen_h
-        gauche = x1[1] < 0
+        haut = x1[1] < 0
+        bas = y1[1] > fen_h
+        gauche = x1[0] < 0
         droite = x2[0] > fen_l
         return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
@@ -187,7 +189,7 @@ class Cible:
         self.cache = False
         self.anim = False
 
-    def touche_cible(self, pingouin):
+    def touche_cible(self, pingouin, key):
         """Renvoie vrai si le pingouin touche la cible."""
         global cibles_touchees
         if pingouin.touche_truc(self):
@@ -197,11 +199,20 @@ class Cible:
             self.anim = True
             # But : soit mettre le pingouin au centre de la cible puis le faire disparaitre
             # Met le pingouin au centre de la cible
-            screen.blit(cache, (pingouin.x, pingouin.y))
+            match key:
+                case pg.K_DOWN:
+                    screen.blit(cache, (pingouin.x, pingouin.y - 22))
+                    pg.display.update(pg.Rect(pingouin.x, pingouin.y - 22, 40, 40))
+                case pg.K_UP:
+                    screen.blit(cache, (pingouin.x, pingouin.y + 22))
+                    pg.display.update(pg.Rect(pingouin.x, pingouin.y + 22, 40, 40))
+                case pg.K_LEFT:
+                    screen.blit(cache, (pingouin.x + 22, pingouin.y))
+                    pg.display.update(pg.Rect(pingouin.x + 22, pingouin.y, 40, 40))
+                case pg.K_RIGHT:
+                    screen.blit(cache, (pingouin.x - 22, pingouin.y))
+                    pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 40, 40))
             screen.blit(ci, (self.x, self.y))
-            pg.display.update(pg.Rect(pingouin.x, pingouin.y, 40, 40))
-            (pingouin.x, pingouin.y)
-            (self.x, self.y)
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
 
 
@@ -220,9 +231,9 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            haut = x1[0] < 0
-            bas = x3[0] > fen_h
-            gauche = x1[1] < 0
+            haut = x1[1] < 0
+            bas = x3[1] > fen_h
+            gauche = x1[0] < 0
             droite = x2[0] > fen_l
             if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_cibles, cib)
@@ -235,9 +246,9 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            haut = x1[0] < 0
-            bas = x3[0] > fen_h
-            gauche = x1[1] < 0
+            haut = x1[1] < 0
+            bas = x3[1] > fen_h
+            gauche = x1[0] < 0
             droite = x2[0] > fen_l
             if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_murs, m)
@@ -251,9 +262,9 @@ def coll_pote(obj):
             haut_droit = x3[0] < x2[0] < x4[0] and x3[1] < x2[1] < y3[1]
             bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
             bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
-            haut = x1[0] < 0
-            bas = x3[0] > fen_h
-            gauche = x1[1] < 0
+            haut = x1[1] < 0
+            bas = x3[1] > fen_h
+            gauche = x1[0] < 0
             droite = x2[0] > fen_l
             if haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite:
                 change(liste_pingouins, p)
@@ -274,8 +285,6 @@ def change(liste, ind):
     coll_pote(liste_pingouins)
     coll_pote(liste_murs)
 
-
-
 # pg.Rect.colliderect(Rect) pour collisions entre 2 rectangles pas penchés
 
 def compteur_temps():
@@ -295,7 +304,6 @@ def compteur_temps():
             min = str(t//60) + ' min'
     return (min, sec)
 
-
     
 def coll(obj, liste):
     x1, x2 = (obj.x, obj.y), (obj.x + obj.taille[0], obj.y)
@@ -312,10 +320,10 @@ def coll(obj, liste):
         if hg or basg or hd or bd:
             #change(liste_cibles, cib)
             return True
-
+        
 
 # pingcibles = random.randint(1, 10)
-pingcibles = 3
+pingcibles = 10
 
 
 # Fait les listes
@@ -379,7 +387,7 @@ while runningf:
             for ciblind in range(len(liste_cibles)):
                 if not liste_cibles[ciblind].cache:
                     for ping in range(len(liste_pingouins)):
-                        liste_cibles[ciblind].touche_cible(liste_pingouins[ping])
+                        liste_cibles[ciblind].touche_cible(liste_pingouins[ping], event.key)
     # PARTIE DESSIN
     screen.blit(wallpaper, (0, 0))
     for ciblind in liste_cibles:
