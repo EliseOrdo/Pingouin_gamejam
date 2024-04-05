@@ -34,7 +34,7 @@ def Monitor(PP_ADDRESS):
      
      """ initialisation du tableau de données"""
      dep = time.time()
-     m = 1 # masse des pingouins ( en faire des plus lourd ?)
+     m = 1 # masse des pingouins (en faire des plus lourd ?)
      pos_p = [0,0] #self.x, self.y
      vit_p = [0,0]
      acc = [0,0,0] #(x,y,z)    liste car pas besoin d'une array
@@ -49,7 +49,7 @@ def Monitor(PP_ADDRESS):
              if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
              print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              if(value<=-5 or value>=5 ):
-                acc[i] = value/5
+                acc[i] = m*value/5 
              else:
                 acc[i] = 0
              print(acc[i])
