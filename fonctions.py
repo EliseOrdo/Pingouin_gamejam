@@ -121,7 +121,7 @@ def memeligne(obj1: object, obj2: object):
     return haut or bas or milieu
 
 
-def animcible(cible):
+def animcible(cible: clas.Cible):
     dict_obj = {"Pingouins" : [p for p in var.liste_pingouins if not memeligne(cible, p)],
                 "Murs" : [m for m in var.liste_murs if not memeligne(cible, m)],
                 "Cibles" : [c for c in var.liste_cibles if not memeligne(cible, c)]}
