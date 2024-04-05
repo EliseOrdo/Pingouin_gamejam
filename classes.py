@@ -151,7 +151,7 @@ class Cible:
         self.cache = False
         self.anim = False
 
-    def touche_cible(self, pingouin, key):
+    def touche_cible(self, pingouin: Pingouin):
         """Renvoie vrai si le pingouin touche la cible + fait des choses"""
         if pingouin.touche_truc(self):
             self.cache = True
@@ -161,17 +161,17 @@ class Cible:
             pingouin.cache = True
             var.dict_obj['Pingouins'].remove(pingouin)
             self.anim = True
-            match key:
-                case pg.K_DOWN:
+            match pingouin.orientation:
+                case 'bas':
                     var.screen.blit(var.cache, (pingouin.x, pingouin.y - 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y - 22, 40, 40))
-                case pg.K_UP:
+                case 'haut':
                     var.screen.blit(var.cache, (pingouin.x, pingouin.y + 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y + 22, 40, 40))
-                case pg.K_LEFT:
+                case 'gauche':
                     var.screen.blit(var.cache, (pingouin.x + 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x + 22, pingouin.y, 40, 40))
-                case pg.K_RIGHT:
+                case 'droite':
                     var.screen.blit(var.cache, (pingouin.x - 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 40, 40))
             var.screen.blit(var.ci, (self.x, self.y))
