@@ -87,6 +87,7 @@ def Monitor(PP_ADDRESS):
                  ax2.plot(p2,pos_p[1],'go')
                  plt.pause(0.005)
                  p2+=1
+
              #if i ==2 : 
                  #ax3.plot(p3,value,'bo')
                  #plt.pause(0.005)
