@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import requests
 import time
-
+import classes as clas
+import pygame as pg
 
 # A changer à chaques fois
 PP_ADDRESS = "http://192.168.76.130:8080"  # dans variables
@@ -68,15 +69,30 @@ def acc2speed(acc: list, vit_p : list):
             print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
 
-def position(pos_p : list, vit_p: list):
-    pos_p[0] += vit_p[0]  #x = x+v
-    pos_p[1] += vit_p[1]    
+def position(ping: clas.Pingouin , vit_p: list):
+    ping.x += vit_p[0]  #x = x+v
+    ping.y += vit_p[1]    
     #time.sleep(0.05)
-    return  pos_p
+    if(vit_p[0] >= 0): ping.orientation = 'droite'
+    elif(vit_p[0] < 0): ping.orientation = 'gauche'
+    if(vit_p[1] >= 0): ping.orientation = 'bas'
+    elif(vit_p[1] < 0): ping.orientation = 'haut'
+    while ping.touche_qui_ou() is True:
+            match ping.oriention :
+                case 'haut':
+                    ping.y += 1
+                case 'bas':
+                    ping.y -= 1
+                case 'droite':
+                    ping.x -= 1
+                case 'gauche':
+                    ping.x += 1
+            ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
+    
 
 
 """graphique de la position"""
-
+""""
 pos = [0,0]
 while True: 
     vit = acc2speed(acc, vit_p)
@@ -87,5 +103,5 @@ while True:
     ax2.plot(p2,pos[1],'go')
     plt.pause(0.005)
     p2+=1
-
+""""
 #trucs à expliquer : vitesse angulaire, on veut pouvoir pencher lentement et que ça glisse quand même, donc on modélise le poids
