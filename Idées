@@ -1,10 +1,11 @@
 Pour le phyphox : prendre en compte un vitesse supérieure à 0.5 radiants par secondes.
 
-Axe Oy : tourne autour de l'axe de la longueur
-Axe Ox : tourne autour de l'axe de la largeur
-Axe Oz : tourne autour de l'axe de la hauteur
-
-pour le déplacement on calcule la variation de position : je remplace les anciennes coordonnées par le snouvelles 
-dans l'array, et faudra soutraire pour trouver la vitesse/accélération /jsp/ bref le mvt
 
 tel : en haut pour recommencer en bas pour arreter
+
+fonctions :
+ajouter en variables globale acc et vit, et pos est déjà dans la classe pingouin
+2 fonctions: 
+une à appeler avant le for p in liste pingouins (juste pour la complexité) qui va calculer la vitesse à ajouter aux positions de chacun des pingouins
+puis une autre, à appeler dans le for, qui renvoie, pour chaque pingouin, sa nouvelle position grace à la vitesse enregistrée avec l'appel de la première fonction
+
