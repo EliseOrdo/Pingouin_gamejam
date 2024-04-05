@@ -6,3 +6,5 @@ Axe Oz : tourne autour de l'axe de la hauteur
 
 pour le déplacement on calcule la variation de position : je remplace les anciennes coordonnées par le snouvelles 
 dans l'array, et faudra soutraire pour trouver la vitesse/accélération /jsp/ bref le mvt
+
+tel : en haut pour recommencer en bas pour arreter

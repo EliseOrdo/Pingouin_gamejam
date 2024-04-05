@@ -42,7 +42,6 @@ while runningf:
         var.screen.blit(text_fin, (var.fen_l/2-35, var.fen_h/2-5))
         txt = var.font.render("Recommencer ? (o , n)", 10, (0, 100, 255))
         var.screen.blit(txt, (var.fen_l/2 - 85, var.fen_h/2 + 15))
-        #screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
         var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
         var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
     else:
