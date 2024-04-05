@@ -1,8 +1,8 @@
 """les pengouins."""
-import Phyphox2python as p2p
-from variables import *
+#import Phyphox2python as p2p
 from classes import *
-
+from fonctions import *
+from variables import *
 
 pg.init()
 
@@ -12,7 +12,6 @@ background = background.convert()
 background.fill((186, 235, 239))
 
 font = pg.font.Font(None, 24)
-text = font.render(str(mouvements), 1, (0, 100, 255))
 
 runningf = True
 
