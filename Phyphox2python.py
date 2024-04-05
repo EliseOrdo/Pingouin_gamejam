@@ -11,7 +11,7 @@ import time
 
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.76.40" 
+PP_ADDRESS = "http://192.168.76.130:8080" 
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -22,7 +22,7 @@ def Monitor(PP_ADDRESS):
      cal but the unites are weird)
      PP_CHANNELS = ["gyrX","gyrY","gyrZ"] #pour le gyroscope"""
 
-     PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération
+     PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération avec g
 
      starturl = PP_ADDRESS + "/control?cmd=start"
      
@@ -57,14 +57,20 @@ def Monitor(PP_ADDRESS):
              #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
              if i ==0 :
                 if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
-                    vit_p[0] = acc[1]
+                    vit_p[0] = acc[1]  #on inverse x et y ici
                 else :
-                    vit_p[0] *= acc[1] #v = v*a
+                    if(vit_p[0] < 0 and acc[1]<0):
+                        vit_p[0] *= -1*acc[1] #v = v*a~ --> - * - = + et on veut pas ça
+                    else:
+                        vit_p[0] *= acc[1]
              if i ==1 :
                 if(vit_p[1] < 1 and vit_p[1]> -1): 
                     vit_p[1] = acc[0]
                 else : 
-                    vit_p[1] *= acc[0] #on inverse x et y ici
+                    if(vit_p[1] < 0 and acc[0]<0):
+                        vit_p[1] *= -1*acc[0]
+                    else:
+                        vit_p[1] *= acc[0] 
              print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
              if i ==0 :
                 pos_p[0] += vit_p[0]  #x = x+v
