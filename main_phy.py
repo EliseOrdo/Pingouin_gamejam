@@ -1,4 +1,5 @@
 """les pengouins."""
+
 import pygame as pg
 import variables as var
 import fonctions as func
@@ -6,6 +7,7 @@ import fonctions as func
 
 pg.init()
 pg.font.init()
+
 
 runningf = True
 
