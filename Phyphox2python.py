@@ -39,7 +39,7 @@ def Monitor(PP_ADDRESS):
      vit_p = [0,0]
      acc = [0,0,0] #(x,y,z)    liste car pas besoin d'une array
      #x(phyphox)=y(écran)
-     print("--------------GO-------------")
+     #print("--------------GO-------------")
      while True: # une fois dans le main, à enlever et à mettre dans la boucle principale
          #PP_ADRESS/get?&
          url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
@@ -47,13 +47,13 @@ def Monitor(PP_ADDRESS):
          for i, channel in enumerate(PP_CHANNELS):
              value = data["buffer"][channel]["buffer"][0]
              if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
-             print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
+             #print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
              if(value<=-5 or value>=5 ):
                 acc[i] = m*value/5 
              else:
                 acc[i] = 0
-             print(acc[i])
-             print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
+             #print(acc[i])
+             #print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
              #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
              if i ==0 :
                 if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
@@ -71,13 +71,14 @@ def Monitor(PP_ADDRESS):
                         vit_p[1] *= -1*acc[0]
                     else:
                         vit_p[1] *= acc[0] 
-             print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
+             #print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
              if i ==0 :
                 pos_p[0] += vit_p[0]  #x = x+v
              if i ==1 :
                 pos_p[1] += vit_p[1]   
-             print("pingouin : \npx : {}\npy : {}\n".format(pos_p[0],pos_p[1]))
+             #print("pingouin : \npx : {}\npy : {}\n".format(pos_p[0],pos_p[1]))
             
+             """graphique de la position
              if i ==0 : 
                  ax1.plot(p1,pos_p[0],'ro')
                  plt.pause(0.005)
@@ -86,10 +87,11 @@ def Monitor(PP_ADDRESS):
                  ax2.plot(p2,pos_p[1],'go')
                  plt.pause(0.005)
                  p2+=1
-             """if i ==2 : 
-                 ax3.plot(p3,value,'bo')
-                 plt.pause(0.005)
-                 p3+=1 """
+             #if i ==2 : 
+                 #ax3.plot(p3,value,'bo')
+                 #plt.pause(0.005)
+                 #p3+=1 
+                 """
 
             #time.sleep(0.05)
 Monitor(PP_ADDRESS)
