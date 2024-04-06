@@ -103,5 +103,5 @@ while True:
     ax2.plot(p2,pos[1],'go')
     plt.pause(0.005)
     p2+=1
-""""
+"""
 #trucs à expliquer : vitesse angulaire, on veut pouvoir pencher lentement et que ça glisse quand même, donc on modélise le poids
