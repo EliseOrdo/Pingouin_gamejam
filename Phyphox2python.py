@@ -12,7 +12,7 @@ import classes as clas
 import pygame as pg
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.76.130:8080"  # dans variables
+PP_ADDRESS = "http://192.168.207.11:8080"  # dans variables
 
 fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -37,7 +37,6 @@ def acc2speed(acc: list, vit_p : list):
     #PP_ADRESS/get?&
     url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
     data = requests.get(url=url).json()
-    print(len(PP_CHANNELS))
     for i, channel in enumerate(PP_CHANNELS):
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
@@ -66,19 +65,21 @@ def acc2speed(acc: list, vit_p : list):
                     vit_p[1] *= -1*acc[0]
                 else:
                     vit_p[1] *= acc[0] 
-            print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
+        print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
 
 def position(ping: clas.Pingouin , vit_p: list):
-    ping.x += vit_p[0]  #x = x+v
-    ping.y += vit_p[1]    
+    if(vit_p[0] != 0):
+        ping.x += vit_p[0]  #x = x+v
+    if(vit_p[1] != 0):
+        ping.y += vit_p[1]    
     #time.sleep(0.05)
-    if(vit_p[0] >= 0): ping.orientation = 'droite'
+    if(vit_p[0] > 0): ping.orientation = 'droite'
     elif(vit_p[0] < 0): ping.orientation = 'gauche'
-    if(vit_p[1] >= 0): ping.orientation = 'bas'
+    if(vit_p[1] > 0): ping.orientation = 'bas'
     elif(vit_p[1] < 0): ping.orientation = 'haut'
     while ping.touche_qui_ou() is True:
-            match ping.oriention :
+            match ping.orientation :
                 case 'haut':
                     ping.y += 1
                 case 'bas':

@@ -23,13 +23,14 @@ while runningf:
     #Boucle pour le mouvement
     vitesse = p2p.acc2speed(p2p.acc, p2p.vit_p)   
     for pingind in range(len(var.liste_pingouins)):
-                if not var.liste_pingouins[pingind].cache:
-                    p2p.position(var.liste_pingouins[pingind], vitesse)
+        if not var.liste_pingouins[pingind].cache:
+            p2p.position(var.liste_pingouins[pingind], vitesse)
+            print("position")
     for ciblind in range(len(var.liste_cibles)):
-                if not var.liste_cibles[ciblind].cache:
-                    for ping in range(len(var.liste_pingouins)):
-                        if var.liste_cibles[ciblind].touche_cible(var.liste_pingouins[ping]):
-                            func.animcible(var.liste_cibles[ciblind])            
+        if not var.liste_cibles[ciblind].cache:
+            for ping in range(len(var.liste_pingouins)):
+                if var.liste_cibles[ciblind].touche_cible(var.liste_pingouins[ping]):
+                    func.animcible(var.liste_cibles[ciblind])            
 
     # PARTIE DESSIN
     var.screen.blit(var.wallpaper, (0, 0))

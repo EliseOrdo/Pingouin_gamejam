@@ -121,7 +121,7 @@ def memeligne(obj1: object, obj2: object):
     return haut or bas or milieu
 
 
-def animcible(cible: clas.Cible):
+def animcible(cible):
     dict_obj = {"Pingouins" : [p for p in var.liste_pingouins if not memeligne(cible, p)],
                 "Murs" : [m for m in var.liste_murs if not memeligne(cible, m)],
                 "Cibles" : [c for c in var.liste_cibles if not memeligne(cible, c)]}
@@ -202,7 +202,7 @@ def creer_liste_pingouin(n: int):
 
 
 def init():
-    var.pingcibles = random.randint(1, 5)
+    var.pingcibles = 1
     var.pin = pg.image.load("dessins/ping.png").convert_alpha()
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
