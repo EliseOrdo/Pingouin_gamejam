@@ -10,11 +10,12 @@ import requests
 import time
 import classes as clas
 import pygame as pg
+import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.207.11:8080"  # dans variables
+PP_ADDRESS = "http://192.168.183.232:8080"  # dans variables
 
-fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
+#fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
 PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération avec g
 
@@ -33,51 +34,59 @@ vit_p = [0,0]
 acc = [0,0,0] #(x,y,z)    liste car pas besoin d'une array
 #x(phyphox)=y(écran)
 
+
 def acc2speed(acc: list, vit_p : list):
+    
     #PP_ADRESS/get?&
     url = PP_ADDRESS + "/get?" + ("&".join(PP_CHANNELS))
     data = requests.get(url=url).json()
     for i, channel in enumerate(PP_CHANNELS):
+        saute = False
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-5 or value>=5 ):
-            acc[i] = m*value/5 
+        if(value<=-2 or value>=2 ):
+            if(acc[i] == m*value/2): saute = True
+            else : acc[i] = m*value/2
         else:
-            acc[i] = 0
+            if(acc[i] == 0) : saute = True
+            else: acc[i] = 0
         print(acc[i])
         print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
-        #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
-        if i ==0 :
-            if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
-                vit_p[0] = acc[1]  #on inverse x et y ici
-            else :
-                if(vit_p[0] < 0 and acc[1]<0):
-                    vit_p[0] *= -1*acc[1] #v = v*a~ --> - * - = + et on veut pas ça
-                else:
-                    vit_p[0] *= acc[1]
-        
-        if i ==1 :
-            if(vit_p[1] < 1 and vit_p[1]> -1): 
-                vit_p[1] = acc[0]
-            else : 
-                if(vit_p[1] < 0 and acc[0]<0):
-                    vit_p[1] *= -1*acc[0]
-                else:
-                    vit_p[1] *= acc[0] 
-        print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
+        if not saute:
+            #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
+            if i ==0 :
+                if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
+                    vit_p[0] = acc[1]  #on inverse x et y ici
+                else :
+                    if(vit_p[0] < 0 and acc[1]<0):
+                        vit_p[0] *= -1*acc[1] #v = v*a~ --> - * - = + et on veut pas ça
+                    else:
+                        vit_p[0] *= acc[1]
+            
+            if i ==1 :
+                if(vit_p[1] < 1 and vit_p[1]> -1): 
+                    vit_p[1] = acc[0]
+                else : 
+                    if(vit_p[1] < 0 and acc[0]<0):
+                        vit_p[1] *= -1*acc[0]
+                    else:
+                        vit_p[1] *= acc[0] 
+            print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
 
-def position(ping: clas.Pingouin , vit_p: list):
-    if(vit_p[0] != 0):
-        ping.x += vit_p[0]  #x = x+v
-    if(vit_p[1] != 0):
-        ping.y += vit_p[1]    
+def position(ping: clas.Pingouin , lvit_p: list):
+    if(lvit_p[0] != 0):
+        ping.x += lvit_p[0]  #x = x+v
+        print("ping_x : ", ping.x)
+    if(lvit_p[1] != 0):
+        ping.y += lvit_p[1]    
+        print("ping_y : ", ping.y)
     #time.sleep(0.05)
-    if(vit_p[0] > 0): ping.orientation = 'droite'
-    elif(vit_p[0] < 0): ping.orientation = 'gauche'
-    if(vit_p[1] > 0): ping.orientation = 'bas'
-    elif(vit_p[1] < 0): ping.orientation = 'haut'
+    if(lvit_p[0] > 0): ping.orientation = 'droite'
+    elif(lvit_p[0] < 0): ping.orientation = 'gauche'
+    if(lvit_p[1] > 0): ping.orientation = 'bas'
+    elif(lvit_p[1] < 0): ping.orientation = 'haut'
     while ping.touche_qui_ou() is True:
             match ping.orientation :
                 case 'haut':
@@ -88,7 +97,13 @@ def position(ping: clas.Pingouin , vit_p: list):
                     ping.x -= 1
                 case 'gauche':
                     ping.x += 1
+            print( "avant test x : ", ping.x, " y : ", ping.y)
+            if(ping.x >= var.fen_l) : ping.x = var.fen_l -1
+            elif(ping.x <= 0): ping.x = 1
+            if(ping.y >= var.fen_h) : ping.y = var.fen_h -1
+            elif(ping.y <= 0) : ping.y = 1
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
+    print( "x : ", ping.x, " y : ", ping.y)
     
 
 

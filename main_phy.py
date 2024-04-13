@@ -21,11 +21,12 @@ while runningf:
             runningf = False
         
     #Boucle pour le mouvement
-    vitesse = p2p.acc2speed(p2p.acc, p2p.vit_p)   
+    vitesse = p2p.acc2speed(p2p.acc, p2p.vit_p)  
+    print("vitesse : ",vitesse[0]," et ", vitesse[1]) 
     for pingind in range(len(var.liste_pingouins)):
         if not var.liste_pingouins[pingind].cache:
             p2p.position(var.liste_pingouins[pingind], vitesse)
-            print("position")
+            print("position ", "indice ",pingind)
     for ciblind in range(len(var.liste_cibles)):
         if not var.liste_cibles[ciblind].cache:
             for ping in range(len(var.liste_pingouins)):
