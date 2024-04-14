@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.183.232:8080"  # dans variables
+PP_ADDRESS = "http://192.168.198.133:8080"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -76,18 +76,27 @@ def acc2speed(acc: list, vit_p : list):
     return vit_p
 
 def position(ping: clas.Pingouin , lvit_p: list):
+
     if(lvit_p[0] != 0):
         ping.x += lvit_p[0]  #x = x+v
+
         print("ping_x : ", ping.x)
+
     if(lvit_p[1] != 0):
-        ping.y += lvit_p[1]    
+        ping.y += lvit_p[1]   
+
         print("ping_y : ", ping.y)
+    if(ping.x >= var.fen_l) : ping.x = var.fen_l -1
+    elif(ping.x <= 0): ping.x = 1
+    if(ping.y >= var.fen_h) : ping.y = var.fen_h -1
+    elif(ping.y <= 0) : ping.y = 1
     #time.sleep(0.05)
     if(lvit_p[0] > 0): ping.orientation = 'droite'
     elif(lvit_p[0] < 0): ping.orientation = 'gauche'
     if(lvit_p[1] > 0): ping.orientation = 'bas'
     elif(lvit_p[1] < 0): ping.orientation = 'haut'
     while ping.touche_qui_ou() is True:
+            print("collision")
             match ping.orientation :
                 case 'haut':
                     ping.y += 1
@@ -98,10 +107,19 @@ def position(ping: clas.Pingouin , lvit_p: list):
                 case 'gauche':
                     ping.x += 1
             print( "avant test x : ", ping.x, " y : ", ping.y)
-            if(ping.x >= var.fen_l) : ping.x = var.fen_l -1
-            elif(ping.x <= 0): ping.x = 1
-            if(ping.y >= var.fen_h) : ping.y = var.fen_h -1
-            elif(ping.y <= 0) : ping.y = 1
+            if(ping.x >= var.fen_l) : 
+                ping.x = var.fen_l -1
+                ping.orientation = 'droite' # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
+            elif(ping.x <= 0): 
+                ping.x = 1
+                ping.orientation = 'gauche'
+            if(ping.y >= var.fen_h) : 
+                ping.y = var.fen_h -1
+                ping.orientation = 'bas'
+            elif(ping.y <= 0) : 
+                ping.y = 1
+                ping.orientation = 'haut'
+
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
     print( "x : ", ping.x, " y : ", ping.y)
     
