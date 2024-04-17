@@ -45,9 +45,9 @@ def acc2speed(acc: list, vit_p : list):
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-0.5 or value>=0.5 ):
-            if(acc[i] == m*value): saute = True
-            else : acc[i] = m*value
+        if(value<=-2 or value>=2 ):
+            if(acc[i] == m*value/2): saute = True
+            else : acc[i] = m*value/2
         else:
             if(acc[i] == 0) : saute = True
             else: acc[i] = 0
@@ -55,7 +55,7 @@ def acc2speed(acc: list, vit_p : list):
         print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
         if not saute:
             #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
-            if i ==0 :
+            if i ==1 :
                 if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
                     vit_p[0] = acc[1]  #on inverse x et y ici
                 else :
@@ -64,7 +64,7 @@ def acc2speed(acc: list, vit_p : list):
                     else:
                         vit_p[0] *= acc[1]
             
-            if i ==1 :
+            if i ==0 :
                 if(vit_p[1] < 1 and vit_p[1]> -1): 
                     vit_p[1] = acc[0]
                 else : 
@@ -91,17 +91,23 @@ def position(ping: clas.Pingouin , lvit_p: list):
     if(ping.y >= var.fen_h) : ping.y = var.fen_h -1
     elif(ping.y <= 0) : ping.y = 1
     #time.sleep(0.05)
-    if(lvit_p[0] > 0): ping.orientation = 'droite'
-    elif(lvit_p[0] < 0): ping.orientation = 'gauche'
-    if(lvit_p[1] > 0): ping.orientation = 'bas'
-    elif(lvit_p[1] < 0): ping.orientation = 'haut'
+
+
+
     while ping.touche_qui_ou() is True:
             print("collision")
+            if(lvit_p[1] > 0): ping.orientation = 'bas'
+            elif(lvit_p[1] < 0): ping.orientation = 'haut'
+            print("orientation : ", ping.orientation)
             match ping.orientation :
                 case 'haut':
                     ping.y += 1
                 case 'bas':
                     ping.y -= 1
+            if(lvit_p[0] > 0): ping.orientation = 'droite'
+            elif(lvit_p[0] < 0): ping.orientation = 'gauche' 
+            print("orientation : ", ping.orientation)   
+            match ping.orientation:
                 case 'droite':
                     ping.x -= 1
                 case 'gauche':
@@ -109,16 +115,16 @@ def position(ping: clas.Pingouin , lvit_p: list):
             print( "avant test x : ", ping.x, " y : ", ping.y)
             if(ping.x >= var.fen_l) : 
                 ping.x = var.fen_l -1
-                ping.orientation = 'droite' # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
+                #ping.orientation = 'droite' # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
             elif(ping.x <= 0): 
                 ping.x = 1
-                ping.orientation = 'gauche'
+                #ping.orientation = 'gauche'
             if(ping.y >= var.fen_h) : 
                 ping.y = var.fen_h -1
-                ping.orientation = 'bas'
+                #ping.orientation = 'bas'
             elif(ping.y <= 0) : 
                 ping.y = 1
-                ping.orientation = 'haut'
+                #ping.orientation = 'haut'
 
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
     print( "x : ", ping.x, " y : ", ping.y)
