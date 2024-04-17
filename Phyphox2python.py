@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.198.133:8080"  # dans variables
+PP_ADDRESS = "http://192.168.13.188:8080"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -45,9 +45,9 @@ def acc2speed(acc: list, vit_p : list):
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-2 or value>=2 ):
-            if(acc[i] == m*value/2): saute = True
-            else : acc[i] = m*value/2
+        if(value<=-0.5 or value>=0.5 ):
+            if(acc[i] == m*value): saute = True
+            else : acc[i] = m*value
         else:
             if(acc[i] == 0) : saute = True
             else: acc[i] = 0
