@@ -25,7 +25,7 @@ while runningf:
     print("vitesse : ",vitesse[0]," et ", vitesse[1]) 
     for pingind in range(len(var.liste_pingouins)):
         if not var.liste_pingouins[pingind].cache:
-            p2p.position(var.liste_pingouins[pingind], vitesse)
+            vitesse = p2p.position(var.liste_pingouins[pingind], vitesse)
             print("position ", "indice ",pingind)
     for ciblind in range(len(var.liste_cibles)):
         if not var.liste_cibles[ciblind].cache:
