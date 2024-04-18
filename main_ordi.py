@@ -24,10 +24,20 @@ while runningf:
                         func.init()
                     case pg.K_n:
                         pg.quit()
-            # A CHANGER var.liste_pingouins[0].tourne(event.key)
             for pingind in range(len(var.liste_pingouins)):
                 if not var.liste_pingouins[pingind].cache:
                     var.liste_pingouins[pingind].move(event.key)
+                    #rotation
+                    match event.key:
+                        case pg.K_UP:
+                            var.liste_pingouins[pingind].tourne('haut')
+                        case pg.K_DOWN:
+                            var.liste_pingouins[pingind].tourne('bas')
+                        case pg.K_RIGHT:
+                            var.liste_pingouins[pingind].tourne('droite')
+                        case pg.K_LEFT:
+                            var.liste_pingouins[pingind].tourne('gauche')
+
             for ciblind in range(len(var.liste_cibles)):
                 if not var.liste_cibles[ciblind].cache:
                     for ping in range(len(var.liste_pingouins)):

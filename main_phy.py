@@ -26,6 +26,16 @@ while runningf:
     for pingind in range(len(var.liste_pingouins)):
         if not var.liste_pingouins[pingind].cache:
             vitesse = p2p.position(var.liste_pingouins[pingind], vitesse)
+            if abs(vitesse[0] < abs(vitesse[1])):
+                if vitesse[1] > 0:
+                    var.liste_pingouins[pingind].tourne('bas')
+                elif vitesse[1] < 0:
+                    var.liste_pingouins[pingind].tourne('haut')
+            else:
+                if vitesse[0] < 0:
+                    var.liste_pingouins[pingind].tourne('gauche')
+                elif vitesse[0] > 0:
+                    var.liste_pingouins[pingind].tourne('droite')                   
             print("position ", "indice ",pingind)
     for ciblind in range(len(var.liste_cibles)):
         if not var.liste_cibles[ciblind].cache:

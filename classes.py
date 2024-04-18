@@ -10,6 +10,7 @@ class Pingouin:
         # (width = horizontal = axe x, height = vertical = axe y)
         self.x = x
         self.y = y
+        self.image = pg.image.load("dessins/ping.png").convert_alpha()
         # Le point (x,y) est le point en haut a gauche de rectangle.
         self.prect = pg.Rect((self.x, self.y), self.taille)
         self.cache = False
@@ -68,67 +69,68 @@ class Pingouin:
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
     def tourne(self, dir):
+        """UNIQUEMENT AVEC LES TOUCHES"""
         #Rotation
         match self.orientation:
             case 'haut':
                 match dir :
                     case 'droite':
                         self.orientation = 'droite'
-                        var.pin = pg.transform.rotate(var.pin, -90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, -90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'bas':
                         self.orientation = 'bas'
-                        var.pin = pg.transform.rotate(var.pin, 180)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 180)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'gauche':
                         self.orientation = 'gauche'
-                        var.pin = pg.transform.rotate(var.pin, 90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 90)
+                        var.screen.blit(self.image, (self.x, self.y))
             
             case 'droite':
                 match dir:
                     case 'haut':
                         self.orientation = 'haut'
-                        var.pin = pg.transform.rotate(var.pin, 90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'bas':
                         self.orientation = 'bas'
-                        var.pin = pg.transform.rotate(var.pin, -90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, -90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'gauche':
                         self.orientation = 'gauche'
-                        var.pin = pg.transform.rotate(var.pin, 180)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 180)
+                        var.screen.blit(self.image, (self.x, self.y))
 
             case 'gauche':
                 match dir:
                     case 'haut':
                         self.orientation = 'haut'
-                        var.pin = pg.transform.rotate(var.pin, -90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, -90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'bas':
                         self.orientation = 'bas'
-                        var.pin = pg.transform.rotate(var.pin, 90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'droite':
                         self.orientation = 'droite'
-                        var.pin = pg.transform.rotate(var.pin, 180)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 180)
+                        var.screen.blit(self.image, (self.x, self.y))
 
             case 'bas':
                 match dir :
                     case 'droite':
                         self.orientation = 'droite'
-                        var.pin = pg.transform.rotate(var.pin, 90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 90)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'haut':
                         self.orientation = 'haut'
-                        var.pin = pg.transform.rotate(var.pin, 180)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, 180)
+                        var.screen.blit(self.image, (self.x, self.y))
                     case 'gauche':
                         self.orientation = 'gauche'
-                        var.pin = pg.transform.rotate(var.pin, -90)
-                        var.screen.blit(var.pin, (self.x, self.y))
+                        self.image = pg.transform.rotate(self.image, -90)
+                        var.screen.blit(self.image, (self.x, self.y))
 
 
 class Mur:

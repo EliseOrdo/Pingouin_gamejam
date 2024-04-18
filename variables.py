@@ -11,7 +11,7 @@ background.fill((186, 235, 239))
 pg.font.init()
 font = pg.font.Font(None, 24)
 
-pin = pg.image.load("dessins/ping.png").convert_alpha()
+
 ci = pg.image.load("dessins/water.png").convert_alpha()
 ice = pg.image.load("dessins/iceberg.png").convert_alpha()
 wallpaper = pg.image.load("dessins/wallpapers_neige.png").convert_alpha()

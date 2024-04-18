@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.109.61:8080"  # dans variables
+PP_ADDRESS = "http://192.168.1.15"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -84,28 +84,28 @@ def position(ping: clas.Pingouin , lvit_p: list):
 
     if(lvit_p[0] != 0):
         ping.x += lvit_p[0]  #x = x+v
-
         print("ping_x : ", ping.x)
 
     if(lvit_p[1] != 0):
         ping.y += lvit_p[1]   
-
         print("ping_y : ", ping.y)
+
     if(ping.x >= var.fen_l- ping.taille[0]) : 
         ping.x = var.fen_l - ping.taille[0] - 1
         lvit_p[0] = 0
+
     elif(ping.x <= 0): 
         ping.x = 1
         lvit_p[0] = 0
+
     if(ping.y >= var.fen_h - ping.taille[1]) : 
         ping.y = var.fen_h - ping.taille[1] - 1
         lvit_p[1] = 0
+
     elif(ping.y <= 0) : 
         ping.y = 1
         lvit_p[1] = 0
     #time.sleep(0.005)
-
-
 
     while ping.touche_qui_ou() is True:
             print("collision")
