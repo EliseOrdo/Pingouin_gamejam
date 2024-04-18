@@ -46,10 +46,12 @@ def acc2speed(acc: list, vit_p : list):
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
         if(value<=-2 or value>=2 ):
-            if(acc[i] == m*value/2): saute = True
+            if(acc[i] == m*value/2): 
+                saute = True
             else : acc[i] = m*value/2
         else:
-            if(acc[i] == 0) : saute = True
+            if(acc[i] == 0) :
+                saute = True
             else: acc[i] = 0
         print(acc[i])
         print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
