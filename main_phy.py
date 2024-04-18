@@ -1,9 +1,15 @@
 """les pengouins."""
-
+import requests
 import pygame as pg
 import variables as var
 import fonctions as func
-import Phyphox2python as p2p
+
+
+'''Connect to the phone by wifi'''
+requests.get(var.starturl)
+p1=0
+p2=0
+p3=0
 
 
 pg.init()
@@ -24,8 +30,8 @@ while runningf:
  
     for pingind in range(len(var.liste_pingouins)):
         if not var.liste_pingouins[pingind].cache:
-            var.liste_pingouins[pingind].vitesse = p2p.acc2speed(p2p.acc, var.liste_pingouins[pingind].vitesse)  
-            var.liste_pingouins[pingind].vitesse = p2p.position(var.liste_pingouins[pingind], var.liste_pingouins[pingind].vitesse)
+            var.liste_pingouins[pingind].vitesse = func.acc2speed(var.acc, var.liste_pingouins[pingind].vitesse)  
+            var.liste_pingouins[pingind].vitesse = func.position(var.liste_pingouins[pingind], var.liste_pingouins[pingind].vitesse)
             if abs(var.liste_pingouins[pingind].vitesse[0] < abs(var.liste_pingouins[pingind].vitesse[1])):
                 if var.liste_pingouins[pingind].vitesse[1] > 0:
                     var.liste_pingouins[pingind].tourne('bas')
