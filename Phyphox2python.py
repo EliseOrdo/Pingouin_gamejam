@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.183.232:8080"  # dans variables
+PP_ADDRESS = "http://192.168.1.15"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -46,10 +46,12 @@ def acc2speed(acc: list, vit_p : list):
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
         if(value<=-2 or value>=2 ):
-            if(acc[i] == m*value/2): saute = True
+            if(acc[i] == m*value/2): 
+                saute = True
             else : acc[i] = m*value/2
         else:
-            if(acc[i] == 0) : saute = True
+            if(acc[i] == 0) :
+                saute = True
             else: acc[i] = 0
         print(acc[i])
         print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
@@ -82,11 +84,15 @@ def position(ping: clas.Pingouin , lvit_p: list):
     if(lvit_p[1] != 0):
         ping.y += lvit_p[1]    
         print("ping_y : ", ping.y)
-    #time.sleep(0.05)
-    if(lvit_p[0] > 0): ping.orientation = 'droite'
-    elif(lvit_p[0] < 0): ping.orientation = 'gauche'
-    if(lvit_p[1] > 0): ping.orientation = 'bas'
-    elif(lvit_p[1] < 0): ping.orientation = 'haut'
+    
+    if(lvit_p[0] > 0): 
+        ping.tourne('droite')
+    elif(lvit_p[0] < 0): 
+        ping.tourne('gauche')
+    if(lvit_p[1] > 0): 
+        ping.tourne('bas')
+    elif(lvit_p[1] < 0): 
+        ping.tourne('haut')
     while ping.touche_qui_ou() is True:
             match ping.orientation :
                 case 'haut':
