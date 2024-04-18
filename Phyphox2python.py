@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.1.15"  # dans variables
+PP_ADDRESS = "http://192.168.109.61:8080"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
