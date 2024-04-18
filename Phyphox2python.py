@@ -104,10 +104,14 @@ def position(ping: clas.Pingouin , lvit_p: list):
                 case 'gauche':
                     ping.x += 1
             print( "avant test x : ", ping.x, " y : ", ping.y)
-            if(ping.x >= var.fen_l) : ping.x = var.fen_l -1
-            elif(ping.x <= 0): ping.x = 1
-            if(ping.y >= var.fen_h) : ping.y = var.fen_h -1
-            elif(ping.y <= 0) : ping.y = 1
+            """if(ping.x >= var.fen_l) : 
+                ping.x = var.fen_l -1
+            elif(ping.x <= 0): 
+                ping.x = 1
+            if(ping.y >= var.fen_h) : 
+                ping.y = var.fen_h -1
+            elif(ping.y <= 0) : 
+                ping.y = 1"""
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
     print( "x : ", ping.x, " y : ", ping.y)
     
