@@ -13,7 +13,7 @@ import pygame as pg
 import variables as var
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.13.188:8080"  # dans variables
+PP_ADDRESS = "http://192.168.109.61:8080"  # dans variables
 
 #fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
@@ -101,7 +101,7 @@ def position(ping: clas.Pingouin , lvit_p: list):
     elif(ping.y <= 0) : 
         ping.y = 1
         lvit_p[1] = 0
-    #time.sleep(0.05)
+    #time.sleep(0.005)
 
 
 
