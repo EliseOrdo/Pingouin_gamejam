@@ -11,9 +11,9 @@ import time
 
 
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.201.140:8080" 
+PP_ADDRESS = "http://192.168.1.15"  # dans variables
 
-fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
+#fig, (ax1, ax2,ax3) = plt.subplots(ncols=3)
 
 def Monitor(PP_ADDRESS):
      """PP_CHANNELS = ["magX","magY","magZ"] # Name should be changed depending on the parameter
