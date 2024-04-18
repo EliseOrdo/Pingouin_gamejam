@@ -35,6 +35,7 @@ class Pingouin:
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin"""
+        print("self x : {}, y : {}".format(self.x,self.y))
         for mur in var.liste_murs:
             if self.touche_truc(mur):
                 return True
@@ -66,65 +67,65 @@ class Pingouin:
                     self.x += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
-    def tourne(self, touche):
+    def tourne(self, dir):
         #Rotation
         match self.orientation:
             case 'haut':
-                match touche :
-                    case pg.K_RIGHT:
+                match dir :
+                    case 'droite':
                         self.orientation = 'droite'
                         var.pin = pg.transform.rotate(var.pin, -90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                    case 'bas':
                         self.orientation = 'bas'
                         var.pin = pg.transform.rotate(var.pin, 180)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                    case 'gauche':
                         self.orientation = 'gauche'
                         var.pin = pg.transform.rotate(var.pin, 90)
                         var.screen.blit(var.pin, (self.x, self.y))
             
             case 'droite':
-                match touche:
-                    case pg.K_UP:
+                match dir:
+                    case 'haut':
                         self.orientation = 'haut'
                         var.pin = pg.transform.rotate(var.pin, 90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                    case 'bas':
                         self.orientation = 'bas'
                         var.pin = pg.transform.rotate(var.pin, -90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                    case 'gauche':
                         self.orientation = 'gauche'
                         var.pin = pg.transform.rotate(var.pin, 180)
                         var.screen.blit(var.pin, (self.x, self.y))
 
             case 'gauche':
-                match touche:
-                    case pg.K_UP:
+                match dir:
+                    case 'haut':
                         self.orientation = 'haut'
                         var.pin = pg.transform.rotate(var.pin, -90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                    case 'bas':
                         self.orientation = 'bas'
                         var.pin = pg.transform.rotate(var.pin, 90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_RIGHT:
+                    case 'droite':
                         self.orientation = 'droite'
                         var.pin = pg.transform.rotate(var.pin, 180)
                         var.screen.blit(var.pin, (self.x, self.y))
 
             case 'bas':
-                match touche :
-                    case pg.K_RIGHT:
+                match dir :
+                    case 'droite':
                         self.orientation = 'droite'
                         var.pin = pg.transform.rotate(var.pin, 90)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_UP:
+                    case 'haut':
                         self.orientation = 'haut'
                         var.pin = pg.transform.rotate(var.pin, 180)
                         var.screen.blit(var.pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                    case 'gauche':
                         self.orientation = 'gauche'
                         var.pin = pg.transform.rotate(var.pin, -90)
                         var.screen.blit(var.pin, (self.x, self.y))
@@ -151,7 +152,7 @@ class Cible:
         self.cache = False
         self.anim = False
 
-    def touche_cible(self, pingouin, key):
+    def touche_cible(self, pingouin: Pingouin):
         """Renvoie vrai si le pingouin touche la cible + fait des choses"""
         if pingouin.touche_truc(self):
             self.cache = True
@@ -161,17 +162,17 @@ class Cible:
             pingouin.cache = True
             var.dict_obj['Pingouins'].remove(pingouin)
             self.anim = True
-            match key:
-                case pg.K_DOWN:
+            match pingouin.orientation:
+                case 'bas':
                     var.screen.blit(var.cache, (pingouin.x, pingouin.y - 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y - 22, 40, 40))
-                case pg.K_UP:
+                case 'haut':
                     var.screen.blit(var.cache, (pingouin.x, pingouin.y + 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y + 22, 40, 40))
-                case pg.K_LEFT:
+                case 'gauche':
                     var.screen.blit(var.cache, (pingouin.x + 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x + 22, pingouin.y, 40, 40))
-                case pg.K_RIGHT:
+                case 'droite':
                     var.screen.blit(var.cache, (pingouin.x - 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 40, 40))
             var.screen.blit(var.ci, (self.x, self.y))
