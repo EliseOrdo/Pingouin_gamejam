@@ -2,7 +2,6 @@
 import pygame as pg
 import variables as var
 import fonctions as func
-import classes as clas
 
 
 pg.init()

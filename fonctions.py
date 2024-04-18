@@ -202,7 +202,7 @@ def creer_liste_pingouin(n: int):
 
 
 def init():
-    var.pingcibles = random.randint(1, 5)
+    var.pingcibles = random.randint(1, 10)
     var.pin = pg.image.load("dessins/ping.png").convert_alpha()
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)

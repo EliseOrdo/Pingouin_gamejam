@@ -21,7 +21,15 @@ while runningf:
 
 
     # PARTIE MOUVEMENT
-        
+    var.liste_pingouins[0].tourne(event.key)
+    for pingind in range(len(var.liste_pingouins)):
+        if not var.liste_pingouins[pingind].cache:
+            var.liste_pingouins[pingind].move() #changer parametres de move
+    for ciblind in range(len(var.liste_cibles)):
+        if not var.liste_cibles[ciblind].cache:
+            for ping in range(len(var.liste_pingouins)):
+                if var.liste_cibles[ciblind].touche_cible(var.liste_pingouins[ping], event.key): #changer parametre event.key
+                    func.animcible(var.liste_cibles[ciblind])
 
     # PARTIE DESSIN
     var.screen.blit(var.wallpaper, (0, 0))

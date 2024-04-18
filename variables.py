@@ -30,3 +30,4 @@ pingcibles : int = None
 start : int = None
 tmps : tuple = None
 fini : bool = False
+direction : str = "haut"

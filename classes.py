@@ -176,5 +176,6 @@ class Cible:
                     pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 40, 40))
             var.screen.blit(var.ci, (self.x, self.y))
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
+            var.dict_obj['Pingouins'].remove(pingouin)
             return True
         return False
