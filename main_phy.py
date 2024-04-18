@@ -62,6 +62,7 @@ while runningf:
         var.screen.blit(t, (var.fen_l/2-120, var.fen_h/2 + 35))
         var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
         var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
+        func.fin()
     else:
         var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
         var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))

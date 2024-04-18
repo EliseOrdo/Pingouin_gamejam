@@ -19,10 +19,10 @@ def acc2speed(acc: list, vit_p : list):
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-4 or value>=4 ):
-            if(acc[i] == var.m * value/4): 
+        if(value<=-5 or value>=5):
+            if(acc[i] == var.m * value/5): 
                 saute = True
-            else : acc[i] = var.m * value/4
+            else : acc[i] = var.m * value/5
         else:
             if(acc[i] == 0) :
                 saute = True
@@ -317,7 +317,7 @@ def creer_liste_pingouin(n: int):
 
 
 def init():
-    var.pingcibles = 6
+    var.pingcibles = 1
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
     var.liste_pingouins = creer_liste_pingouin(var.pingcibles)
@@ -330,3 +330,17 @@ def init():
     var.start = time.time()
     var.tmps = compteur_temps()
     var.fini = False
+
+def fin():
+    url = var.PP_ADDRESS + "/get?" + ("&".join(var.PP_CHANNELS))
+    data = requests.get(url=url).json()
+    for i, channel in enumerate(var.PP_CHANNELS):
+        saute = False
+        value = data["buffer"][channel]["buffer"][0]
+        if value[2] <= -5:
+            pg.quit()
+            return 0
+        elif value[2] >= 5:
+            init()
+            var.fini = False
+            return 1
