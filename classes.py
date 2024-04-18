@@ -14,6 +14,7 @@ class Pingouin:
         self.prect = pg.Rect((self.x, self.y), self.taille)
         self.cache = False
         self.orientation = 'haut'
+        self.vitesse = [0,0]
 
     def touche_truc(self, truc):
         """Verifie si le pingouin touche le truc (le truc doit avoir x et y en parametre).
