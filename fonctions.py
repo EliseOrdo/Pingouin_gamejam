@@ -157,7 +157,7 @@ def dessine(dict: dict):
     et dessine les objets
     """
     for pingouin in dict["Pingouins"]:
-        var.screen.blit(var.pin, (pingouin.x, pingouin.y))
+        var.screen.blit(pingouin.image, (pingouin.x, pingouin.y))
     for mur in dict["Murs"]:
         var.screen.blit(var.ice, (mur.x, mur.y))
     for cible in dict["Cibles"]:
@@ -204,7 +204,6 @@ def creer_liste_pingouin(n: int):
 
 def init():
     var.pingcibles = 6
-    var.pin = pg.image.load("dessins/ping.png").convert_alpha()
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
     var.liste_pingouins = creer_liste_pingouin(var.pingcibles)
