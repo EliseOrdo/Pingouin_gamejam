@@ -77,10 +77,10 @@ def position(ping , lvit_p: list):
     while ping.touche_qui_ou() is True:
             print("collision")
             if(lvit_p[1] > 0): 
-                ping.orientation = 'bas'
+                ping.tourne('bas')  
                 lvit_p[1] = 0
             elif(lvit_p[1] < 0): 
-                ping.orientation = 'haut'
+                ping.tourne('haut')
                 lvit_p[1] = 0
             print("orientation : ", ping.orientation)
             match ping.orientation :
@@ -89,10 +89,10 @@ def position(ping , lvit_p: list):
                 case 'bas':
                     ping.y -= 1
             if(lvit_p[0] > 0): 
-                ping.orientation = 'droite'
+                ping.tourne('droite')
                 lvit_p[0] = 0
             elif(lvit_p[0] < 0): 
-                ping.orientation = 'gauche' 
+                ping.tourne('gauche')
                 lvit_p[0] = 0
             print("orientation : ", ping.orientation)   
             match ping.orientation:
@@ -103,19 +103,19 @@ def position(ping , lvit_p: list):
             print( "avant test x : ", ping.x, " y : ", ping.y)
             if(ping.x >= var.fen_l- ping.taille[0]) : 
                 ping.x = var.fen_l - ping.taille[0] - 1
-                ping.orientation = 'droite' # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
+                ping.tourne('droite') # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
                 lvit_p[0] = 0
             elif(ping.x <= 0): 
                 ping.x = 1
-                ping.orientation = 'gauche'
+                ping.tourne('gauche')
                 lvit_p[0] = 0
             if(ping.y >= var.fen_h - ping.taille[1]) : 
                 ping.y = var.fen_h - ping.taille[1] - 1
-                ping.orientation = 'bas'
+                ping.tourne('bas')
                 lvit_p[1] = 0
             elif(ping.y <= 0) : 
                 ping.y = 1
-                ping.orientation = 'haut'
+                ping.tourne('haut')
                 lvit_p[1] = 0
             print("après tests :", ping.x, " ", ping.y)
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
@@ -317,7 +317,7 @@ def creer_liste_pingouin(n: int):
 
 
 def init():
-    var.pingcibles = 1
+    var.pingcibles = 3
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
     var.liste_pingouins = creer_liste_pingouin(var.pingcibles)
