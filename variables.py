@@ -1,5 +1,20 @@
 import pygame as pg
 
+#phy
+# A changer à chaques fois
+PP_ADDRESS = "http://192.168.1.15"
+PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération avec g
+
+starturl = PP_ADDRESS + "/control?cmd=start"
+
+""" initialisation du tableau de données"""
+m = 1 # masse des pingouins (en faire des plus lourd ?)
+pos_p = [0,0] #self.x, self.y
+vit_p = [0,0]
+acc = [0,0,0] #(x,y,z)    liste car pas besoin d'une array
+#x(phyphox)=y(écran)
+
+
 fen_l : int= 1000
 fen_h : int= 700
 
