@@ -21,20 +21,20 @@ while runningf:
             runningf = False
         
     #Boucle pour le mouvement
-    vitesse = p2p.acc2speed(p2p.acc, p2p.vit_p)  
-    print("vitesse : ",vitesse[0]," et ", vitesse[1]) 
+ 
     for pingind in range(len(var.liste_pingouins)):
         if not var.liste_pingouins[pingind].cache:
-            vitesse = p2p.position(var.liste_pingouins[pingind], vitesse)
-            if abs(vitesse[0] < abs(vitesse[1])):
-                if vitesse[1] > 0:
+            var.liste_pingouins[pingind].vitesse = p2p.acc2speed(p2p.acc, var.liste_pingouins[pingind].vitesse)  
+            var.liste_pingouins[pingind].vitesse = p2p.position(var.liste_pingouins[pingind], var.liste_pingouins[pingind].vitesse)
+            if abs(var.liste_pingouins[pingind].vitesse[0] < abs(var.liste_pingouins[pingind].vitesse[1])):
+                if var.liste_pingouins[pingind].vitesse[1] > 0:
                     var.liste_pingouins[pingind].tourne('bas')
-                elif vitesse[1] < 0:
+                elif var.liste_pingouins[pingind].vitesse[1] < 0:
                     var.liste_pingouins[pingind].tourne('haut')
             else:
-                if vitesse[0] < 0:
+                if var.liste_pingouins[pingind].vitesse[0] < 0:
                     var.liste_pingouins[pingind].tourne('gauche')
-                elif vitesse[0] > 0:
+                elif var.liste_pingouins[pingind].vitesse[0] > 0:
                     var.liste_pingouins[pingind].tourne('droite')                   
             print("position ", "indice ",pingind)
     for ciblind in range(len(var.liste_cibles)):

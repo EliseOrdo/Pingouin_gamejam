@@ -203,9 +203,8 @@ def creer_liste_pingouin(n: int):
 
 
 def init():
-    var.pingcibles = 5
-    """var.pin = pg.image.load("dessins/ping.png").convert_alpha()"""
-    var.liste_murs = creer_liste_murs(1)
+    var.pingcibles = 6
+    var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
     var.liste_pingouins = creer_liste_pingouin(var.pingcibles)
     var.dict_obj = {

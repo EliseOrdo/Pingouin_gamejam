@@ -45,10 +45,10 @@ def acc2speed(acc: list, vit_p : list):
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
         print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-2 or value>=2 ):
-            if(acc[i] == m*value/2): 
+        if(value<=-4 or value>=4 ):
+            if(acc[i] == m*value/4): 
                 saute = True
-            else : acc[i] = m*value/2
+            else : acc[i] = m*value/4
         else:
             if(acc[i] == 0) :
                 saute = True
@@ -80,7 +80,7 @@ def acc2speed(acc: list, vit_p : list):
             print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
 
-def position(ping: clas.Pingouin , lvit_p: list):
+def position(ping , lvit_p: list):
 
     if(lvit_p[0] != 0):
         ping.x += lvit_p[0]  #x = x+v
