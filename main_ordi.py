@@ -24,7 +24,7 @@ while runningf:
                         func.init()
                     case pg.K_n:
                         pg.quit()
-            var.liste_pingouins[0].tourne(event.key)
+            # A CHANGER var.liste_pingouins[0].tourne(event.key)
             for pingind in range(len(var.liste_pingouins)):
                 if not var.liste_pingouins[pingind].cache:
                     var.liste_pingouins[pingind].move(event.key)
