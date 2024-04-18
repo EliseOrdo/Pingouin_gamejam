@@ -1,5 +1,6 @@
-from fonctions import *
-from variables import *
+import pygame as pg
+import variables as var
+import fonctions as func
 
 class Pingouin:
     """definie un pingouin."""
@@ -27,25 +28,23 @@ class Pingouin:
         bas_gauche = x3[0] < y1[0] < x4[0] and x3[1] < y1[1] < y3[1]
         bas_droit = x3[0] < y2[0] < x4[0] and x3[1] < y2[1] < y3[1]
         haut = x1[1] < 0
-        bas = y1[1] > fen_h
+        bas = y1[1] > var.fen_h
         gauche = x1[0] < 0
-        droite = x2[0] > fen_l
+        droite = x2[0] > var.fen_l
         return haut_gauche or bas_gauche or haut_droit or bas_droit or haut or bas or gauche or droite
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin"""
-        for mur in liste_murs:
+        print("self x : {}, y : {}".format(self.x,self.y))
+        for mur in var.liste_murs:
             if self.touche_truc(mur):
                 return True
         return False
 
     def move(self, touche):
         """Fait bouger le pingouin."""
-        global mouvements
         vit = 22
         if self.touche_qui_ou() is False:
-            #Mouvement
-
             match touche:
                 case pg.K_UP:
                     self.y -= vit
@@ -68,72 +67,68 @@ class Pingouin:
                     self.x += 1
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
-    def tourne(self, touche):
-        global pin
+    def tourne(self, dir):
         #Rotation
         match self.orientation:
             case 'haut':
-                match touche :
-                    case pg.K_RIGHT:
+                match dir :
+                    case 'droite':
                         self.orientation = 'droite'
-                        pin = pg.transform.rotate(pin, -90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                        var.pin = pg.transform.rotate(var.pin, -90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'bas':
                         self.orientation = 'bas'
-                        pin = pg.transform.rotate(pin, 180)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                        var.pin = pg.transform.rotate(var.pin, 180)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'gauche':
                         self.orientation = 'gauche'
-                        pin = pg.transform.rotate(pin, 90)
-                        screen.blit(pin, (self.x, self.y))
+                        var.pin = pg.transform.rotate(var.pin, 90)
+                        var.screen.blit(var.pin, (self.x, self.y))
             
             case 'droite':
-                match touche:
-                    case pg.K_UP:
+                match dir:
+                    case 'haut':
                         self.orientation = 'haut'
-                        pin = pg.transform.rotate(pin, 90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                        var.pin = pg.transform.rotate(var.pin, 90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'bas':
                         self.orientation = 'bas'
-                        pin = pg.transform.rotate(pin, -90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                        var.pin = pg.transform.rotate(var.pin, -90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'gauche':
                         self.orientation = 'gauche'
-                        pin = pg.transform.rotate(pin, 180)
-                        screen.blit(pin, (self.x, self.y))
-                (self.orientation)
+                        var.pin = pg.transform.rotate(var.pin, 180)
+                        var.screen.blit(var.pin, (self.x, self.y))
 
             case 'gauche':
-                match touche:
-                    case pg.K_UP:
+                match dir:
+                    case 'haut':
                         self.orientation = 'haut'
-                        pin = pg.transform.rotate(pin, -90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_DOWN:
+                        var.pin = pg.transform.rotate(var.pin, -90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'bas':
                         self.orientation = 'bas'
-                        pin = pg.transform.rotate(pin, 90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_RIGHT:
+                        var.pin = pg.transform.rotate(var.pin, 90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'droite':
                         self.orientation = 'droite'
-                        pin = pg.transform.rotate(pin, 180)
-                        screen.blit(pin, (self.x, self.y))
-                (self.orientation)
+                        var.pin = pg.transform.rotate(var.pin, 180)
+                        var.screen.blit(var.pin, (self.x, self.y))
 
             case 'bas':
-                match touche :
-                    case pg.K_RIGHT:
+                match dir :
+                    case 'droite':
                         self.orientation = 'droite'
-                        pin = pg.transform.rotate(pin, 90)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_UP:
+                        var.pin = pg.transform.rotate(var.pin, 90)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'haut':
                         self.orientation = 'haut'
-                        pin = pg.transform.rotate(pin, 180)
-                        screen.blit(pin, (self.x, self.y))
-                    case pg.K_LEFT:
+                        var.pin = pg.transform.rotate(var.pin, 180)
+                        var.screen.blit(var.pin, (self.x, self.y))
+                    case 'gauche':
                         self.orientation = 'gauche'
-                        pin = pg.transform.rotate(pin, -90)
-                        screen.blit(pin, (self.x, self.y))
-                (self.orientation)
+                        var.pin = pg.transform.rotate(var.pin, -90)
+                        var.screen.blit(var.pin, (self.x, self.y))
 
 
 class Mur:
@@ -157,31 +152,30 @@ class Cible:
         self.cache = False
         self.anim = False
 
-    def touche_cible(self, pingouin, key):
-        """Renvoie vrai si le pingouin touche la cible."""
-        global cibles_touchees
-        global dict_obj
+    def touche_cible(self, pingouin: Pingouin):
+        """Renvoie vrai si le pingouin touche la cible + fait des choses"""
         if pingouin.touche_truc(self):
             self.cache = True
-            if self in dict_obj['Cibles']:
-                dict_obj['Cibles'].remove(self)
-            cibles_touchees += 1
+            if self in var.dict_obj['Cibles']:
+                var.dict_obj['Cibles'].remove(self)
+            var.cibles_touchees += 1
             pingouin.cache = True
-            dict_obj['Pingouins'].remove(pingouin)
+            var.dict_obj['Pingouins'].remove(pingouin)
             self.anim = True
-            match key:
-                case pg.K_DOWN:
-                    screen.blit(cache, (pingouin.x, pingouin.y - 22))
+            match pingouin.orientation:
+                case 'bas':
+                    var.screen.blit(var.cache, (pingouin.x, pingouin.y - 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y - 22, 40, 40))
-                case pg.K_UP:
-                    screen.blit(cache, (pingouin.x, pingouin.y + 22))
+                case 'haut':
+                    var.screen.blit(var.cache, (pingouin.x, pingouin.y + 22))
                     pg.display.update(pg.Rect(pingouin.x, pingouin.y + 22, 40, 40))
-                case pg.K_LEFT:
-                    screen.blit(cache, (pingouin.x + 22, pingouin.y))
+                case 'gauche':
+                    var.screen.blit(var.cache, (pingouin.x + 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x + 22, pingouin.y, 40, 40))
-                case pg.K_RIGHT:
-                    screen.blit(cache, (pingouin.x - 22, pingouin.y))
+                case 'droite':
+                    var.screen.blit(var.cache, (pingouin.x - 22, pingouin.y))
                     pg.display.update(pg.Rect(pingouin.x - 22, pingouin.y, 40, 40))
-            screen.blit(ci, (self.x, self.y))
+            var.screen.blit(var.ci, (self.x, self.y))
             pg.display.update(pg.Rect(self.x, self.y, 40, 40))
-            animcible(self)
+            return True
+        return False

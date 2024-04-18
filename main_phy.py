@@ -1,58 +1,54 @@
 """les pengouins."""
+
+import pygame as pg
+import variables as var
+import fonctions as func
 import Phyphox2python as p2p
-from variables import *
-from classes import *
 
 
 pg.init()
+pg.font.init()
 
-screen = pg.display.set_mode((fen_l, fen_h))
-background = pg.Surface(screen.get_size())
-background = background.convert()
-background.fill((186, 235, 239))
-
-font = pg.font.Font(None, 24)
-text = font.render(str(mouvements), 1, (0, 100, 255))
 
 runningf = True
 
-init()
+func.init()
 
 while runningf:
     # PARTIE EVENTS
     for event in pg.event.get():
         if event.type == pg.QUIT:
             runningf = False
-        if event.type == pg.KEYDOWN:
-            if fini:
-                match event.key:
-                    case pg.K_o:
-                        init()
-                    case pg.K_n:
-                        pg.quit()
-            liste_pingouins[0].tourne(event.key)
-            for pingind in range(len(liste_pingouins)):
-                if not liste_pingouins[pingind].cache:
-                    liste_pingouins[pingind].move(event.key)
-            for ciblind in range(len(liste_cibles)):
-                if not liste_cibles[ciblind].cache:
-                    for ping in range(len(liste_pingouins)):
-                        liste_cibles[ciblind].touche_cible(liste_pingouins[ping], event.key)
+        
+    #Boucle pour le mouvement
+    vitesse = p2p.acc2speed(p2p.acc, p2p.vit_p)  
+    print("vitesse : ",vitesse[0]," et ", vitesse[1]) 
+    for pingind in range(len(var.liste_pingouins)):
+        if not var.liste_pingouins[pingind].cache:
+            vitesse = p2p.position(var.liste_pingouins[pingind], vitesse)
+            print("position ", "indice ",pingind)
+    for ciblind in range(len(var.liste_cibles)):
+        if not var.liste_cibles[ciblind].cache:
+            for ping in range(len(var.liste_pingouins)):
+                if var.liste_cibles[ciblind].touche_cible(var.liste_pingouins[ping]):
+                    func.animcible(var.liste_cibles[ciblind])            
+
     # PARTIE DESSIN
-    screen.blit(wallpaper, (0, 0))
-    dessine(dict_obj)
-    if cibles_touchees == pingcibles:
-        fini = True
-        text_fin = font.render("Bravo !!", 10, (0, 100, 255))
-        screen.blit(text_fin, (fen_l/2-35, fen_h/2-5))
-        txt = font.render("Recommencer ? (o , n)", 10, (0, 100, 255))
-        screen.blit(txt, (fen_l/2 - 85, fen_h/2 + 15))
-        #screen.blit(font.render(t, 10, (0,100,255)), (fen_l/2-145, fen_h/2 + 15))
-        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
-        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
+    var.screen.blit(var.wallpaper, (0, 0))
+    func.dessine(var.dict_obj)
+    if var.cibles_touchees == var.pingcibles:
+        var.fini = True
+        text_fin = var.font.render("Bravo !!", 10, (0, 100, 255))
+        txt = var.font.render("Recommencer ?", 10, (0, 100, 255))
+        t = var.font.render("monter : oui, descendre : non", 10, (0, 100, 255))
+        var.screen.blit(text_fin, (var.fen_l/2-35, var.fen_h/2-5))
+        var.screen.blit(txt, (var.fen_l/2 - 70, var.fen_h/2 + 15))
+        var.screen.blit(t, (var.fen_l/2-120, var.fen_h/2 + 35))
+        var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
+        var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
     else:
-        screen.blit(font.render(tmps[1], 1, (0, 100, 255)), (950, 0))
-        screen.blit(font.render(tmps[0], 1, (0, 100, 255)), (895, 0))
-        tmps = compteur_temps()
+        var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
+        var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
+        var.tmps = func.compteur_temps()
     pg.display.flip()
 pg.quit()
