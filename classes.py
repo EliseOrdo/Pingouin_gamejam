@@ -37,7 +37,6 @@ class Pingouin:
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin"""
-        print("self x : {}, y : {}".format(self.x,self.y))
         for mur in var.liste_murs:
             if self.touche_truc(mur):
                 return True

@@ -41,7 +41,6 @@ while runningf:
                     var.liste_pingouins[pingind].tourne('gauche')
                 elif var.liste_pingouins[pingind].vitesse[0] > 0:
                     var.liste_pingouins[pingind].tourne('droite')                   
-            print("position ", "indice ",pingind)
     for ciblind in range(len(var.liste_cibles)):
         if not var.liste_cibles[ciblind].cache:
             for ping in range(len(var.liste_pingouins)):
@@ -51,8 +50,7 @@ while runningf:
     # PARTIE DESSIN
     var.screen.blit(var.wallpaper, (0, 0))
     func.dessine(var.dict_obj)
-    if var.cibles_touchees == var.pingcibles or var.fini:
-        var.fini = True
+    if var.cibles_touchees == var.pingcibles:
         text_fin = var.font.render("Bravo !!", 10, (0, 100, 255))
         txt = var.font.render("Recommencer ?", 10, (0, 100, 255))
         t = var.font.render("monter : oui, descendre : non", 10, (0, 100, 255))
@@ -62,6 +60,8 @@ while runningf:
         var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
         var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
         func.fin()
+        if var.fini:
+            break
     else:
         var.screen.blit(var.font.render(var.tmps[1], 1, (0, 100, 255)), (950, 0))
         var.screen.blit(var.font.render(var.tmps[0], 1, (0, 100, 255)), (895, 0))
