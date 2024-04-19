@@ -70,7 +70,7 @@ class Pingouin:
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
     def tourne(self, dir):
-        """UNIQUEMENT AVEC LES TOUCHES"""
+        """"""
         #Rotation
         match self.orientation:
             case 'haut':
