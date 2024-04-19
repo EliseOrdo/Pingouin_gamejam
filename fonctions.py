@@ -32,23 +32,8 @@ def acc2speed(acc: list, vit_p : list):
         if not saute:
             #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
             if i ==1 :
-                """if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
-                    vit_p[0] = acc[1]/2  #on inverse x et y ici
-                else :
-                    if(vit_p[0] < 0 and acc[1]<0):
-                        vit_p[0] *= -1*acc[1]/2 #v = v*a~ --> - * - = + et on veut pas ça
-                    else:
-                        vit_p[0] *= acc[1]/2"""
                 vit_p[0] += min(acc[1],100)
             if i ==0 :
-                """if(vit_p[1] < 1 and vit_p[1]> -1): 
-                    vit_p[1] = acc[0]/2
-                else : 
-                    if(vit_p[1] < 0 and acc[0]<0):
-                        vit_p[1] *= -1*acc[0]/2
-                    else:
-                        vit_p[1] *= acc[0]/2
-            """
                 vit_p[1] += min(acc[0],100)
             print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
