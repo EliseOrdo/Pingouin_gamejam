@@ -37,7 +37,6 @@ class Pingouin:
 
     def touche_qui_ou(self):
         """Renvoie le mur touché par le pingouin"""
-        print("self x : {}, y : {}".format(self.x,self.y))
         for mur in var.liste_murs:
             if self.touche_truc(mur):
                 return True
@@ -70,7 +69,7 @@ class Pingouin:
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
     def tourne(self, dir):
-        """UNIQUEMENT AVEC LES TOUCHES"""
+        """"""
         #Rotation
         match self.orientation:
             case 'haut':

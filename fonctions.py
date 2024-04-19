@@ -18,49 +18,28 @@ def acc2speed(acc: list, vit_p : list):
         saute = False
         value = data["buffer"][channel]["buffer"][0]
         if(value == None): value = 0  #si value==None, on ne peut pas la mettre dans notre array acc_p
-        print ('Channel is : {}, value is : {} ,index is : {}'.format(channel,value,i) )
-        if(value<=-4 or value>=4 ):
-            if(acc[i] == var.m * value/4): 
+        if(value<=-5 or value>=5):
+            if(acc[i] == var.m * value/5): 
                 saute = True
-            else : acc[i] = var.m * value/4
+            else : acc[i] = var.m * value/5
         else:
             if(acc[i] == 0) :
                 saute = True
             else: acc[i] = 0
-        print(acc[i])
-        print("pingouin : \nax : {}\nay : {}\n".format(acc[0],acc[1]))
         if not saute:
             #on n'oublie pas de séparer les cas i=0 ou 1 parce que sinon le truc fait deux fois les additions et évidemment ça part dans e130
             if i ==1 :
-                """if(vit_p[0] < 1 and vit_p[0]> -1): #0.5*0.5=0.25 on évite que ça tende vers 0 à l'infini
-                    vit_p[0] = acc[1]/2  #on inverse x et y ici
-                else :
-                    if(vit_p[0] < 0 and acc[1]<0):
-                        vit_p[0] *= -1*acc[1]/2 #v = v*a~ --> - * - = + et on veut pas ça
-                    else:
-                        vit_p[0] *= acc[1]/2"""
                 vit_p[0] += min(acc[1],100)
             if i ==0 :
-                """if(vit_p[1] < 1 and vit_p[1]> -1): 
-                    vit_p[1] = acc[0]/2
-                else : 
-                    if(vit_p[1] < 0 and acc[0]<0):
-                        vit_p[1] *= -1*acc[0]/2
-                    else:
-                        vit_p[1] *= acc[0]/2
-            """
                 vit_p[1] += min(acc[0],100)
-            print("pingouin : \nvx : {}\nvy : {}\n".format(vit_p[0],vit_p[1]))
     return vit_p
 
 
 def position(ping , lvit_p: list):
     if(lvit_p[0] != 0):
         ping.x += lvit_p[0]  #x = x+v
-        print("ping_x : ", ping.x)
     if(lvit_p[1] != 0):
         ping.y += lvit_p[1]   
-        print("ping_y : ", ping.y)
     if(ping.x >= var.fen_l- ping.taille[0]) : 
         ping.x = var.fen_l - ping.taille[0] - 1
         lvit_p[0] = 0
@@ -75,51 +54,45 @@ def position(ping , lvit_p: list):
         lvit_p[1] = 0
     #time.sleep(0.005)
     while ping.touche_qui_ou() is True:
-            print("collision")
             if(lvit_p[1] > 0): 
-                ping.orientation = 'bas'
+                ping.tourne('bas')  
                 lvit_p[1] = 0
             elif(lvit_p[1] < 0): 
-                ping.orientation = 'haut'
+                ping.tourne('haut')
                 lvit_p[1] = 0
-            print("orientation : ", ping.orientation)
             match ping.orientation :
                 case 'haut':
                     ping.y += 1
                 case 'bas':
                     ping.y -= 1
             if(lvit_p[0] > 0): 
-                ping.orientation = 'droite'
+                ping.tourne('droite')
                 lvit_p[0] = 0
             elif(lvit_p[0] < 0): 
-                ping.orientation = 'gauche' 
+                ping.tourne('gauche')
                 lvit_p[0] = 0
-            print("orientation : ", ping.orientation)   
             match ping.orientation:
                 case 'droite':
                     ping.x -= 1
                 case 'gauche':
                     ping.x += 1
-            print( "avant test x : ", ping.x, " y : ", ping.y)
             if(ping.x >= var.fen_l- ping.taille[0]) : 
                 ping.x = var.fen_l - ping.taille[0] - 1
-                ping.orientation = 'droite' # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
+                ping.tourne('droite') # même si on change d'orientation alors qu'on a dépasssé le cadre, on remet le bon
                 lvit_p[0] = 0
             elif(ping.x <= 0): 
                 ping.x = 1
-                ping.orientation = 'gauche'
+                ping.tourne('gauche')
                 lvit_p[0] = 0
             if(ping.y >= var.fen_h - ping.taille[1]) : 
                 ping.y = var.fen_h - ping.taille[1] - 1
-                ping.orientation = 'bas'
+                ping.tourne('bas')
                 lvit_p[1] = 0
             elif(ping.y <= 0) : 
                 ping.y = 1
-                ping.orientation = 'haut'
+                ping.tourne('haut')
                 lvit_p[1] = 0
-            print("après tests :", ping.x, " ", ping.y)
             ping.prect = pg.Rect((ping.x, ping.y), (20, 40))
-    print( "x : ", ping.x, " y : ", ping.y)
     return lvit_p
 
 
@@ -312,12 +285,11 @@ def creer_liste_pingouin(n: int):
                 ajout = False
         if ajout:
             li.append(m)
-            print("coo départ : ", m.x, " ", m.y )
     return li
 
 
 def init():
-    var.pingcibles = 6
+    var.pingcibles = random.randint(1, 17)
     var.liste_murs = creer_liste_murs(5)
     var.liste_cibles = creer_liste_cibles(var.pingcibles)
     var.liste_pingouins = creer_liste_pingouin(var.pingcibles)
@@ -330,3 +302,17 @@ def init():
     var.start = time.time()
     var.tmps = compteur_temps()
     var.fini = False
+
+def fin():
+    url = var.PP_ADDRESS + "/get?" + ("&".join(var.PP_CHANNELS))
+    data = requests.get(url=url).json()
+    for i, channel in enumerate(var.PP_CHANNELS):
+        if i == 2:
+            value = data["buffer"][channel]["buffer"][0]
+            if value <= 2:
+                pg.quit()
+                var.fini = True
+                return 0
+            elif value >= 18:
+                init()
+                return 1
