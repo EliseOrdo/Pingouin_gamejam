@@ -2,7 +2,7 @@ import pygame as pg
 
 #phy
 # A changer à chaques fois
-PP_ADDRESS = "http://192.168.210.179:8080"
+PP_ADDRESS = "http://192.168.172.40"
 PP_CHANNELS = ["accX","accY","accZ"] #pour l'accélération avec g
 
 starturl = PP_ADDRESS + "/control?cmd=start"

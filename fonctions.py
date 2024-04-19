@@ -320,12 +320,12 @@ def fin():
     url = var.PP_ADDRESS + "/get?" + ("&".join(var.PP_CHANNELS))
     data = requests.get(url=url).json()
     for i, channel in enumerate(var.PP_CHANNELS):
-        saute = False
-        value = data["buffer"][channel]["buffer"][0]
-        if value[2] <= -5:
-            pg.quit()
-            return 0
-        elif value[2] >= 5:
-            init()
-            var.fini = False
-            return 1
+        if i == 2:
+            value = data["buffer"][channel]["buffer"][0]
+            if value <= 5:
+                pg.quit()
+                return 0
+            elif value >= 15:
+                init()
+                var.fini = False
+                return 1
