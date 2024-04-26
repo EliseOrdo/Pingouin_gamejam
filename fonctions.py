@@ -1,13 +1,9 @@
 import requests
 import random
-import sys 
 import time 
 import pygame as pg
 import variables as var
 import classes as clas
-
-
-sys.setrecursionlimit(100000000)
 
 
 def acc2speed(acc: list, vit_p : list):
@@ -96,8 +92,8 @@ def position(ping , lvit_p: list):
     return lvit_p
 
 
-def coll_pote(obj: object):
-    """Verifie que la cible est dans une (autre) cible."""
+def coll_pote(obj: list):
+    """Verifie que la tous les objets de la liste ne sont pas en collision avec tous les autres objets, change les coordonnées sinon."""
     for i in range(len(obj)):
         x1 = (obj[i].x, obj[i].y)
         x2 = (obj[i].x + obj[i].taille[0], obj[i].y)
