@@ -3,9 +3,8 @@ import variables as var
 import fonctions as func
 
 class Pingouin:
-    """definie un pingouin."""
 
-    def __init__(self, x, y):
+    def __init__(self, x : float, y : float):
         self.taille = (18, 17)
         # (width = horizontal = axe x, height = vertical = axe y)
         self.x = x
@@ -17,8 +16,8 @@ class Pingouin:
         self.orientation = 'haut'
         self.vitesse = [0,0]
 
-    def touche_truc(self, truc):
-        """Verifie si le pingouin touche le truc (le truc doit avoir x et y en parametre).
+    def touche_truc(self, truc : object):
+        """Verifie si le pingouin touche le truc ou un bord.
             x1 : haut gauche de self, x2 : haut droit de self y1 bas gauche de self et y2 bas droit de self
             x3, x4, y3, y4 : meme chose pour truc"""
         x1, x2 = (self.x, self.y), (self.x + self.taille[0], self.y)
@@ -69,8 +68,6 @@ class Pingouin:
             self.prect = pg.Rect((self.x, self.y), (20, 40))
 
     def tourne(self, dir):
-        """"""
-        #Rotation
         match self.orientation:
             case 'haut':
                 match dir :
@@ -134,7 +131,6 @@ class Pingouin:
 
 
 class Mur:
-    """Un mur."""
 
     def __init__(self, x, y, taille):
         self.taille = taille
@@ -144,7 +140,6 @@ class Mur:
 
 
 class Cible:
-    """Je propose que le but soit d'aller dans l'eau, genre pour chercher du poisson."""
 
     def __init__(self, x, y):
         self.taille = (40, 40)
@@ -155,7 +150,7 @@ class Cible:
         self.anim = False
 
     def touche_cible(self, pingouin: Pingouin):
-        """Renvoie vrai si le pingouin touche la cible + fait des choses"""
+        """Renvoie vrai si le pingouin touche la cible + appel l'animation de la cible"""
         if pingouin.touche_truc(self):
             self.cache = True
             if self in var.dict_obj['Cibles']:
